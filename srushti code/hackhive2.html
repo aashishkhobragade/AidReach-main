@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>MediGuardian - Offline First Aid</title>
+    <meta name="theme-color" content="#dc2626" />
+    <meta name="description" content="Offline-first emergency application with AI injury detection." />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" href="./assets/icon-192.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons (Phosphor Icons - clean and premium) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Leaflet CSS for Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="app-header glass">
+        <div class="logo">
+            <i class="ph-fill ph-first-aid"></i>
+            <h1>MediGuardian</h1>
+        </div>
+        <button id="sos-btn" class="sos-btn pulse-animation">SOS</button>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="app-content">
+        <!-- Home View -->
+        <section id="view-home" class="view active">
+            <div class="hero-card">
+                <h2>Emergency Ready.</h2>
+                <p>Offline first-aid guidance acting as your digital responder.</p>
+            </div>
+
+            <h3 class="section-title">Quick Guides</h3>
+            <div class="guides-grid">
+                <div class="guide-card" onclick="app.openGuide('snake')">
+                    <div class="icon-wrapper snake"><i class="ph ph-bug"></i></div>
+                    <span>Snake Bite</span>
+                </div>
+                <div class="guide-card" onclick="app.openGuide('burn')">
+                    <div class="icon-wrapper burn"><i class="ph ph-fire"></i></div>
+                    <span>Burns</span>
+                </div>
+                <div class="guide-card" onclick="app.openGuide('cut')">
+                    <div class="icon-wrapper cut"><i class="ph ph-drop"></i></div>
+                    <span>Cuts & Bleeding</span>
+                </div>
+                <div class="guide-card" onclick="app.openGuide('fracture')">
+                    <div class="icon-wrapper fracture"><i class="ph ph-bone"></i></div>
+                    <span>Fractures</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Scan View -->
+        <section id="view-scan" class="view hidden">
+            <div class="scan-container">
+                <div class="scanner-header">
+                    <h2>AI Injury Detection</h2>
+                    <p>Point camera at the wound for instant first-aid suggestions.</p>
+                </div>
+                <div class="camera-wrapper">
+                    <video id="camera-feed" autoplay playsinline></video>
+                    <canvas id="camera-canvas" class="hidden"></canvas>
+                    <div class="scanner-overlay line-anim"></div>
+                    <div id="ai-status" class="glass-pill">Initializing Model...</div>
+                </div>
+                <div class="scan-actions">
+                    <button id="capture-btn" class="primary-btn" disabled>
+                        <i class="ph ph-camera"></i> Analyze Injury
+                    </button>
+                    <button id="switch-camera-btn" class="secondary-btn icon-only">
+                        <i class="ph ph-arrows-clockwise"></i>
+                    </button>
+                </div>
+                <div id="ai-result" class="result-card hidden glass">
+                    <h3 id="result-title"></h3>
+                    <div id="result-confidence" class="confidence-bar"></div>
+                    <p id="result-action"></p>
+                    <div class="action-steps" id="result-steps"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map View -->
+        <section id="view-map" class="view hidden">
+            <div class="map-header">
+                <h2>Emergency Map</h2>
+                <p class="offline-badge"><i class="ph ph-wifi-slash"></i> Offline Ready</p>
+            </div>
+            <div id="map-container" class="map-container"></div>
+            <div class="map-filters glass">
+                <button class="filter-btn active" data-type="hospital"><i class="ph ph-hospital"></i></button>
+                <button class="filter-btn" data-type="police"><i class="ph ph-police-car"></i></button>
+                <button class="filter-btn" data-type="ambulance"><i class="ph ph-ambulance"></i></button>
+            </div>
+        </section>
+
+        <!-- Guide Detail Modal -->
+        <div id="guide-modal" class="modal hidden">
+            <div class="modal-content">
+                <button class="close-btn" onclick="app.closeModal()"><i class="ph ph-x"></i></button>
+                <div id="guide-content" class="guide-steps"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav glass">
+        <a href="#home" class="nav-item active" data-target="view-home">
+            <i class="ph ph-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="#scan" class="nav-item" data-target="view-scan">
+            <i class="ph ph-scan"></i>
+            <span>AI Scan</span>
+        </a>
+        <a href="#map" class="nav-item" data-target="view-map">
+            <i class="ph ph-map-pin"></i>
+            <span>Map</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
+    <!-- TensorFlow.js and MobileNet -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.1/dist/mobilenet.min.js"></script>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- Application Code -->
+    <script src="./js/app.js"></script>
+    <script src="./js/ai.js"></script>
+    <script src="./js/map.js"></script>
+</body>
+
+</html>

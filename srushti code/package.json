@@ -1,0 +1,10 @@
+{
+  "name": "first-aid-pwa",
+  "version": "1.0.0",
+  "description": "Offline-First First-Aid Assistance PWA with AI categorization and map",
+  "scripts": {
+    "start": "npx serve -s -l 5000 ."
+  },
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,41 @@
+{
+    "name": "AidReach - Offline First-Aid Guide",
+    "short_name": "AidReach",
+    "description": "Works when the internet and doctors don't.",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#0a0a0a",
+    "theme_color": "#E53935",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "health",
+        "medical",
+        "utilities"
+    ],
+    "shortcuts": [
+        {
+            "name": "CPR",
+            "url": "./index.html#cpr",
+            "description": "Start CPR guidance"
+        },
+        {
+            "name": "Emergency Dashboard",
+            "url": "./index.html#dashboard",
+            "description": "Emergency dashboard"
+        }
+    ]
+}

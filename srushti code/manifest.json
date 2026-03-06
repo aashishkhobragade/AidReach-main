@@ -1,0 +1,22 @@
+{
+    "name": "MediGuardian",
+    "short_name": "MediGuard",
+    "description": "Offline-first First Aid guidance and AI assistance application.",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#121214",
+    "theme_color": "#ff3b30",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' fill='none'/%3E%3Cpath d='M224,80V208a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V80A16,16,0,0,1,48,64H88V48a16,16,0,0,1,16-16h48a16,16,0,0,1,16,16V64h40A16,16,0,0,1,224,80ZM152,48H104V64h48ZM160,136H136V112a8,8,0,0,0-16,0v24H96a8,8,0,0,0,0,16h24v24a8,8,0,0,0,16,0V152h24a8,8,0,0,0,0-16Z' fill='%23ff3b30'/%3E%3C/svg%3E",
+            "sizes": "192x192",
+            "type": "image/svg+xml"
+        },
+        {
+            "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' fill='none'/%3E%3Cpath d='M224,80V208a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V80A16,16,0,0,1,48,64H88V48a16,16,0,0,1,16-16h48a16,16,0,0,1,16,16V64h40A16,16,0,0,1,224,80ZM152,48H104V64h48ZM160,136H136V112a8,8,0,0,0-16,0v24H96a8,8,0,0,0,0,16h24v24a8,8,0,0,0,16,0V152h24a8,8,0,0,0,0-16Z' fill='%23ff3b30'/%3E%3C/svg%3E",
+            "sizes": "512x512",
+            "type": "image/svg+xml"
+        }
+    ]
+}

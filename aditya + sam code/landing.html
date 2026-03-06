@@ -1,0 +1,1258 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#E53935" />
+    <meta name="description"
+        content="AidReach â€” Offline First-Aid Guide for rural areas and disaster situations. Works when the internet and doctors don't." />
+    <title>AidReach â€” Offline First-Aid Guide | Works Without Internet</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="icon-192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@700&display=swap" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --red: #E53935;
+            --red-dark: #B71C1C;
+            --red-light: #FF5252;
+            --red-glow: rgba(229, 57, 53, 0.3);
+            --bg: #0a0a0a;
+            --bg2: #111;
+            --bg-card: #181818;
+            --bg-card2: #1e1e1e;
+            --white: #fff;
+            --text-2: #bdbdbd;
+            --text-3: #757575;
+            --green: #43A047;
+            --amber: #FFB300;
+            --blue: #1E88E5;
+            --border: rgba(255, 255, 255, 0.07);
+            --font: 'Inter', sans-serif;
+            --r: 18px;
+            --r-sm: 10px;
+            --r-lg: 28px;
+            --r-full: 9999px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ======== NAV ======== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 40px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .nav-logo svg {
+            filter: drop-shadow(0 0 10px var(--red));
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-2);
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+        }
+
+        .btn-nav {
+            background: var(--red);
+            border: none;
+            border-radius: var(--r-full);
+            color: white;
+            font-family: var(--font);
+            font-size: 14px;
+            font-weight: 700;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 20px rgba(229, 57, 53, 0.35);
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 28px rgba(229, 57, 53, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 12px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* ======== HERO ======== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px 60px;
+            background: radial-gradient(ellipse 80% 60% at 50% 10%, rgba(229, 57, 53, 0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(100, 0, 0, 0.12) 0%, transparent 60%),
+                var(--bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23E53935' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(229, 57, 53, 0.1);
+            border: 1px solid rgba(229, 57, 53, 0.3);
+            border-radius: var(--r-full);
+            padding: 8px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--red-light);
+            margin-bottom: 28px;
+        }
+
+        .hero-badge-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--red-light);
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 8vw, 88px);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -3px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 .accent {
+            color: var(--red-light);
+        }
+
+        .hero p {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: var(--text-2);
+            max-width: 640px;
+            line-height: 1.65;
+            margin-bottom: 44px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-hero {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--red);
+            border: none;
+            border-radius: var(--r);
+            color: white;
+            font-family: var(--font);
+            font-size: 17px;
+            font-weight: 800;
+            padding: 20px 36px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 8px 40px rgba(229, 57, 53, 0.4);
+            text-decoration: none;
+        }
+
+        .btn-hero:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 50px rgba(229, 57, 53, 0.55);
+        }
+
+        .btn-hero-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--r);
+            color: white;
+            font-family: var(--font);
+            font-size: 17px;
+            font-weight: 700;
+            padding: 20px 36px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-hero-outline:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .hero-trust {
+            margin-top: 48px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .hero-trust-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-3);
+        }
+
+        .hero-trust-item span {
+            font-weight: 600;
+            color: var(--text-2);
+        }
+
+        /* Floating phone mockup */
+        .hero-mockup {
+            margin-top: 80px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .mockup-phone {
+            width: 220px;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            transform: rotate(-3deg) translateY(20px);
+            transition: transform 0.4s;
+            flex-shrink: 0;
+        }
+
+        .mockup-phone:nth-child(2) {
+            transform: rotate(2deg) translateY(-10px) scale(1.05);
+            z-index: 2;
+        }
+
+        .mockup-phone:nth-child(3) {
+            transform: rotate(5deg) translateY(30px);
+        }
+
+        .mockup-phone img {
+            width: 100%;
+            display: block;
+        }
+
+        .mockup-phone-inner {
+            padding: 16px 12px;
+            background: linear-gradient(160deg, #1a0000, #0d0d0d);
+        }
+
+        .mp-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .mp-cross {
+            flex-shrink: 0;
+        }
+
+        .mp-title {
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        .mp-badge {
+            font-size: 9px;
+            background: rgba(67, 160, 71, 0.15);
+            border: 1px solid #43A047;
+            color: #66BB6A;
+            padding: 2px 7px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-left: auto;
+        }
+
+        .mp-emg {
+            font-size: 9px;
+            color: #757575;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .mp-btn-lg {
+            background: linear-gradient(135deg, #3a0000, #1a0000);
+            border: 1px solid #B71C1C;
+            border-radius: 14px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .mp-btn-lg .icon {
+            font-size: 22px;
+        }
+
+        .mp-btn-lg .label {
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .mp-btn-lg .sub {
+            font-size: 9px;
+            color: #757575;
+        }
+
+        .mp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .mp-btn-sm {
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 10px 6px;
+            text-align: center;
+        }
+
+        .mp-btn-sm .icon {
+            font-size: 18px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .mp-btn-sm .label {
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        @media (max-width: 640px) {
+            .hero-mockup {
+                gap: 8px;
+            }
+
+            .mockup-phone {
+                width: 130px;
+                border-radius: 20px;
+            }
+
+            .mockup-phone:nth-child(1),
+            .mockup-phone:nth-child(3) {
+                display: none;
+            }
+        }
+
+        /* ======== SECTION WRAPPER ======== */
+        section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--red-light);
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: clamp(30px, 5vw, 52px);
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 18px;
+        }
+
+        .section-sub {
+            font-size: clamp(15px, 2vw, 18px);
+            color: var(--text-2);
+            max-width: 560px;
+            line-height: 1.65;
+        }
+
+        /* ======== STATS STRIP ======== */
+        .stats-strip {
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 40px 20px;
+        }
+
+        .stats-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat {
+            flex: 1;
+            min-width: 160px;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .stat+.stat::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .stat-num {
+            font-size: 44px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: var(--white);
+            margin-bottom: 6px;
+        }
+
+        .stat-num .unit {
+            font-size: 24px;
+            color: var(--red-light);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-3);
+            font-weight: 500;
+        }
+
+        /* ======== FEATURES GRID ======== */
+        .features-section {
+            background: var(--bg);
+        }
+
+        .features-flex {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .features-flex.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .features-text {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .features-visual {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 28px 24px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent, rgba(229, 57, 53, 0.04));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(229, 57, 53, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(229, 57, 53, 0.1);
+            border: 1px solid rgba(229, 57, 53, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 18px;
+        }
+
+        .feature-title {
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: var(--text-2);
+            line-height: 1.65;
+        }
+
+        /* ======== EMERGENCY MODULES SHOWCASE ======== */
+        .modules-section {
+            background: linear-gradient(180deg, var(--bg) 0%, #0a0000 50%, var(--bg) 100%);
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 48px;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 28px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .module-card:hover {
+            border-color: var(--red);
+            box-shadow: 0 0 30px rgba(229, 57, 53, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .module-card.featured-mod {
+            grid-column: 1 / -1;
+            flex-direction: row;
+            justify-content: flex-start;
+            gap: 24px;
+            background: linear-gradient(135deg, #2a0000, #1a0000);
+            border-color: rgba(229, 57, 53, 0.35);
+            padding: 32px 28px;
+        }
+
+        .module-icon {
+            font-size: 42px;
+            line-height: 1;
+        }
+
+        .module-title {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .module-sub {
+            font-size: 12px;
+            color: var(--text-3);
+        }
+
+        .module-tag {
+            background: var(--red);
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: var(--r-full);
+            letter-spacing: 0.5px;
+        }
+
+        /* ======== OFFLINE SECTION ======== */
+        .offline-section-bg {
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .offline-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 36px;
+        }
+
+        .offline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--r-sm);
+            padding: 18px 20px;
+        }
+
+        .offline-item-icon {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            background: rgba(229, 57, 53, 0.1);
+            border: 1px solid rgba(229, 57, 53, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .offline-item-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .offline-item-desc {
+            font-size: 13px;
+            color: var(--text-2);
+            line-height: 1.6;
+        }
+
+        /* ======== HOW IT WORKS ======== */
+        .steps-row {
+            display: flex;
+            gap: 0;
+            flex-wrap: wrap;
+            margin-top: 56px;
+            position: relative;
+        }
+
+        .step-item {
+            flex: 1;
+            min-width: 200px;
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-item+.step-item::before {
+            content: 'â†’';
+            position: absolute;
+            left: -12px;
+            top: 30px;
+            font-size: 22px;
+            color: var(--red-light);
+            transform: translateX(-50%);
+        }
+
+        @media (max-width: 600px) {
+            .step-item+.step-item::before {
+                display: none;
+            }
+        }
+
+        .step-circle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(229, 57, 53, 0.1);
+            border: 2px solid rgba(229, 57, 53, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 18px;
+            box-shadow: 0 0 24px rgba(229, 57, 53, 0.15);
+        }
+
+        .step-title {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .step-desc {
+            font-size: 13px;
+            color: var(--text-2);
+            line-height: 1.6;
+        }
+
+        /* ======== LANGUAGES ======== */
+        .lang-section {
+            text-align: center;
+        }
+
+        .lang-badges {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 32px;
+        }
+
+        .lang-badge {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 16px 28px;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ======== CTA SECTION ======== */
+        .cta-section {
+            text-align: center;
+            padding: 120px 20px;
+            background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(229, 57, 53, 0.12) 0%, transparent 70%), var(--bg);
+        }
+
+        .cta-section h2 {
+            font-size: clamp(32px, 6vw, 64px);
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 18px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            color: var(--text-2);
+            max-width: 480px;
+            margin: 0 auto 44px;
+        }
+
+        /* ======== FOOTER ======== */
+        footer {
+            background: var(--bg2);
+            border-top: 1px solid var(--border);
+            padding: 48px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            font-size: 13px;
+            color: var(--text-3);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .footer-copy {
+            font-size: 12px;
+            color: var(--text-3);
+            width: 100%;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ======== NAV ======== -->
+    <nav>
+        <div class="nav-logo">
+            <svg width="32" height="32" viewBox="0 0 100 100">
+                <rect x="38" y="5" width="24" height="90" rx="6" fill="#E53935" />
+                <rect x="5" y="38" width="90" height="24" rx="6" fill="#E53935" />
+            </svg>
+            AidReach
+        </div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#modules">Emergency Modules</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#offline">Offline Mode</a>
+        </div>
+        <a href="index.html" class="btn-nav">Open App â†’</a>
+    </nav>
+
+    <!-- ======== HERO ======== -->
+    <div class="hero">
+        <div class="hero-badge">
+            <div class="hero-badge-dot"></div>
+            Works 100% Offline Â· No Internet Required
+        </div>
+
+        <h1>
+            First Aid,<br>
+            <span class="accent">When It Matters</span><br>Most.
+        </h1>
+
+        <p>
+            AidReach gives untrained bystanders instant, visual first-aid guidance
+            in rural areas and disasters â€” even with no internet, no doctor, and no signal.
+        </p>
+
+        <div class="hero-cta">
+            <a href="index.html" class="btn-hero">ðŸš€ Open App Now</a>
+            <a href="#how-it-works" class="btn-hero-outline">ðŸ“– Learn How It Works</a>
+        </div>
+
+        <div class="hero-trust">
+            <div class="hero-trust-item">âœ… <span>No internet needed</span></div>
+            <div class="hero-trust-item">ðŸ”’ <span>All data stays on device</span></div>
+            <div class="hero-trust-item">ðŸ“± <span>Installable as mobile app</span></div>
+            <div class="hero-trust-item">ðŸ‡®ðŸ‡³ <span>English + à¤¹à¤¿à¤‚à¤¦à¥€</span></div>
+        </div>
+
+        <!-- Phone mockups -->
+        <div class="hero-mockup">
+            <!-- Phone 1: CPR -->
+            <div class="mockup-phone">
+                <div class="mockup-phone-inner">
+                    <div style="text-align:center;padding:16px 0 8px">
+                        <div style="font-size:48px">â¤ï¸</div>
+                        <div style="font-size:36px;font-weight:900;color:#FF5252;margin:4px 0">0</div>
+                        <div style="font-size:9px;color:#757575;text-transform:uppercase;letter-spacing:1px">
+                            Compressions</div>
+                        <div style="margin:12px 0;font-size:13px;font-weight:900">Push HARD &amp; FAST</div>
+                        <div style="font-size:10px;color:#bdbdbd;margin-bottom:14px">2 inches Â· 110 BPM</div>
+                        <div
+                            style="background:#E53935;border-radius:10px;color:white;font-size:11px;font-weight:800;padding:10px;">
+                            â–¶ START CPR</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phone 2: Dashboard (center) -->
+            <div class="mockup-phone">
+                <div class="mockup-phone-inner">
+                    <div class="mp-header">
+                        <svg class="mp-cross" width="20" height="20" viewBox="0 0 100 100">
+                            <rect x="38" y="5" width="24" height="90" rx="5" fill="#E53935" />
+                            <rect x="5" y="38" width="90" height="24" rx="5" fill="#E53935" />
+                        </svg>
+                        <div class="mp-title">AidReach</div>
+                        <div class="mp-badge">â— OFFLINE</div>
+                    </div>
+                    <div class="mp-emg">âš¡ EMERGENCY</div>
+                    <div class="mp-btn-lg">
+                        <div class="icon">â¤ï¸</div>
+                        <div>
+                            <div class="label">CPR</div>
+                            <div class="sub">Life-saving compressions</div>
+                        </div>
+                    </div>
+                    <div class="mp-grid">
+                        <div class="mp-btn-sm"><span class="icon">ðŸ©¸</span><span class="label">Bleeding</span></div>
+                        <div class="mp-btn-sm"><span class="icon">ðŸ”¥</span><span class="label">Burns</span></div>
+                        <div class="mp-btn-sm"><span class="icon">ðŸ¦´</span><span class="label">Fracture</span></div>
+                        <div class="mp-btn-sm"><span class="icon">ðŸ˜®â€ðŸ’¨</span><span class="label">Choking</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phone 3: Login -->
+            <div class="mockup-phone">
+                <div class="mockup-phone-inner">
+                    <div style="text-align:center;padding:8px 0">
+                        <svg width="32" height="32" viewBox="0 0 100 100"
+                            style="margin:8px auto;display:block;filter:drop-shadow(0 0 10px #E53935)">
+                            <rect x="38" y="5" width="24" height="90" rx="6" fill="#E53935" />
+                            <rect x="5" y="38" width="90" height="24" rx="6" fill="#E53935" />
+                        </svg>
+                        <div style="font-size:13px;font-weight:900;margin:6px 0">Create Account</div>
+                        <div style="font-size:9px;color:#757575;margin-bottom:10px">Your data stays on device</div>
+                        <div
+                            style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:7px 8px;text-align:left;font-size:9px;color:#bdbdbd;margin-bottom:6px">
+                            ðŸ‘¤ Full Name</div>
+                        <div
+                            style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:7px 8px;text-align:left;font-size:9px;color:#bdbdbd;margin-bottom:6px">
+                            âœ‰ï¸ Email</div>
+                        <div
+                            style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:7px 8px;text-align:left;font-size:9px;color:#bdbdbd;margin-bottom:10px">
+                            ðŸ“± Phone</div>
+                        <div
+                            style="background:#E53935;border-radius:8px;color:white;font-size:10px;font-weight:800;padding:9px;">
+                            ðŸš€ Create Account</div>
+                        <div style="font-size:8px;color:#43A047;margin-top:8px">ðŸ”’ Stored locally only</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== STATS ======== -->
+    <div class="stats-strip">
+        <div class="stats-inner">
+            <div class="stat">
+                <div class="stat-num">110<span class="unit"> BPM</span></div>
+                <div class="stat-label">CPR Metronome Target</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">10<span class="unit"> min</span></div>
+                <div class="stat-label">Burns Water Timer</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">5<span class="unit"> +</span></div>
+                <div class="stat-label">Emergency Modules</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">0<span class="unit"> KB</span></div>
+                <div class="stat-label">Data Sent Online</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">2<span class="unit"> lang</span></div>
+                <div class="stat-label">English + à¤¹à¤¿à¤‚à¤¦à¥€</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== FEATURES ======== -->
+    <section id="features">
+        <div class="section-label">Why AidReach</div>
+        <div class="section-title">Built for the Moment<br>That Matters Most</div>
+        <div class="section-sub">Designed for panic situations â€” large buttons, minimal text, voice guidance, one action
+            per screen.</div>
+
+        <div class="feature-cards">
+            <div class="feature-card">
+                <div class="feature-icon">ðŸ“´</div>
+                <div class="feature-title">100% Offline</div>
+                <div class="feature-desc">Service Worker caching means the app loads and works fully in Airplane Mode
+                    after the first visit. No internet ever needed.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">ðŸ”</div>
+                <div class="feature-title">Secure Local Account</div>
+                <div class="feature-desc">Register with name, email, and phone. Log in with your email + 4-digit PIN.
+                    All data stored in IndexedDB on your device â€” never uploaded.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">ðŸŽ™ï¸</div>
+                <div class="feature-title">Voice Guidance</div>
+                <div class="feature-desc">Each step is spoken aloud using the offline Web Speech API. Essential for
+                    situations where you can't read the screen.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">ðŸ‘´</div>
+                <div class="feature-title">Elderly-Friendly UI</div>
+                <div class="feature-desc">Giant touch targets, high-contrast red & white theme, minimal text, and large
+                    typography â€” usable by anyone in a panic.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">ðŸŒ</div>
+                <div class="feature-title">English + à¤¹à¤¿à¤‚à¤¦à¥€</div>
+                <div class="feature-desc">Switch instantly between English and Hindi at any time. All instructions,
+                    steps, and voice guidance update automatically.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">ðŸ“±</div>
+                <div class="feature-title">Installable PWA</div>
+                <div class="feature-desc">Install on Android, iOS, or desktop as a native-like app. Works from the home
+                    screen with no app store required.</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ======== MODULES ======== -->
+    <section id="modules" class="modules-section">
+        <div class="section-label">Emergency Modules</div>
+        <div class="section-title">Every Life-Threatening<br>Emergency Covered</div>
+        <div class="section-sub">Visual-first guidance with one clear action per screen. Designed for untrained
+            bystanders.</div>
+
+        <div class="modules-grid">
+            <div class="module-card featured-mod">
+                <div class="module-icon">â¤ï¸</div>
+                <div>
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+                        <div class="module-title" style="font-size:22px">CPR</div>
+                        <div class="module-tag">CRITICAL</div>
+                    </div>
+                    <div class="module-sub" style="font-size:14px">110 BPM visual metronome Â· 30-compression cycles Â·
+                        Automatic rescue breath prompts Â· Start/Pause at any time</div>
+                </div>
+            </div>
+            <div class="module-card">
+                <div class="module-icon">ðŸ©¸</div>
+                <div class="module-title">Bleeding Control</div>
+                <div class="module-sub">5-step guide: direct pressure â†’ elevation â†’ tourniquet</div>
+            </div>
+            <div class="module-card">
+                <div class="module-icon">ðŸ”¥</div>
+                <div class="module-title">Burns</div>
+                <div class="module-sub">10-minute cool water countdown timer with ring animation</div>
+            </div>
+            <div class="module-card">
+                <div class="module-icon">ðŸ¦´</div>
+                <div class="module-title">Fracture</div>
+                <div class="module-sub">5-step immobilization guide with splint instructions</div>
+            </div>
+            <div class="module-card">
+                <div class="module-icon">ðŸ˜®â€ðŸ’¨</div>
+                <div class="module-title">Choking</div>
+                <div class="module-sub">Adult and Child toggle â€” back blows + abdominal thrusts</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== OFFLINE ======== -->
+    <div class="offline-section-bg">
+        <section id="offline">
+            <div style="display:flex;gap:60px;align-items:center;flex-wrap:wrap">
+                <div style="flex:1;min-width:280px">
+                    <div class="section-label">Offline Architecture</div>
+                    <div class="section-title">Works in<br>Airplane Mode</div>
+                    <div class="section-sub">Every byte is cached on first load. From then on, the internet is
+                        completely optional.</div>
+                </div>
+                <div style="flex:1;min-width:280px">
+                    <div class="offline-list">
+                        <div class="offline-item">
+                            <div class="offline-item-icon">âš¡</div>
+                            <div>
+                                <div class="offline-item-title">Service Worker Caching</div>
+                                <div class="offline-item-desc">All HTML, CSS, JS, and icons cached on first visit. App
+                                    loads in milliseconds with no network.</div>
+                            </div>
+                        </div>
+                        <div class="offline-item">
+                            <div class="offline-item-icon">ðŸ’¾</div>
+                            <div>
+                                <div class="offline-item-title">IndexedDB Local Storage</div>
+                                <div class="offline-item-desc">User profile, settings, and session stored in IndexedDB.
+                                    No server, no cloud, no data leak.</div>
+                            </div>
+                        </div>
+                        <div class="offline-item">
+                            <div class="offline-item-icon">ðŸŽ™ï¸</div>
+                            <div>
+                                <div class="offline-item-title">Web Speech API (Local)</div>
+                                <div class="offline-item-desc">Voice guidance uses the device's built-in speech
+                                    synthesis â€” works without internet on all modern phones.</div>
+                            </div>
+                        </div>
+                        <div class="offline-item">
+                            <div class="offline-item-icon">ðŸ”</div>
+                            <div>
+                                <div class="offline-item-title">Offline Authentication</div>
+                                <div class="offline-item-desc">Email + PIN login verified entirely on-device. No backend
+                                    server required for authentication.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ======== HOW IT WORKS ======== -->
+    <section id="how-it-works">
+        <div style="text-align:center;max-width:600px;margin:0 auto 0">
+            <div class="section-label">How It Works</div>
+            <div class="section-title">Ready In 3 Steps</div>
+            <div class="section-sub">From zero to saving a life in seconds.</div>
+        </div>
+        <div class="steps-row">
+            <div class="step-item">
+                <div class="step-circle">ðŸ“</div>
+                <div class="step-title">Register Once</div>
+                <div class="step-desc">Enter name, email, and phone. Set a 4-digit PIN. All stored locally â€” under a
+                    second.</div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">ðŸ”‘</div>
+                <div class="step-title">Login Anytime</div>
+                <div class="step-desc">Email + PIN unlocks the app. Works with no internet. Session persists for quick
+                    access.</div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">ðŸ†˜</div>
+                <div class="step-title">Choose Emergency</div>
+                <div class="step-desc">One large button for each emergency. Visual steps appear instantly with voice
+                    guidance.</div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">âœ…</div>
+                <div class="step-title">Follow & Save</div>
+                <div class="step-desc">One instruction per screen. Large text, big buttons, and spoken audio â€”
+                    panic-friendly by design.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======== LANGUAGE ======== -->
+    <div class="offline-section-bg">
+        <section class="lang-section">
+            <div class="section-label">Multilingual</div>
+            <div class="section-title">Every Word<br>In Your Language</div>
+            <div class="section-sub" style="margin:0 auto">All instructions, steps, and voice guidance available in both
+                languages. Switch instantly from Settings.</div>
+            <div class="lang-badges">
+                <div class="lang-badge">ðŸ‡ºðŸ‡¸ <span style="font-weight:900">English</span> â€” Complete instructions</div>
+                <div class="lang-badge">ðŸ‡®ðŸ‡³ <span
+                        style="font-weight:900;font-family:'Noto Sans Devanagari',sans-serif">à¤¹à¤¿à¤‚à¤¦à¥€</span> â€” à¤ªà¥‚à¤°à¥à¤£
+                    à¤¨à¤¿à¤°à¥à¤¦à¥‡à¤¶</div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ======== CTA ======== -->
+    <div class="cta-section">
+        <div class="hero-badge" style="margin:0 auto 24px">âš¡ Disaster Simulation Mode Available</div>
+        <h2>Save a Life<br><span style="color:var(--red-light)">Right Now</span></h2>
+        <p>"Works when the internet and doctors don't."</p>
+        <div class="hero-cta">
+            <a href="index.html" class="btn-hero" style="font-size:19px;padding:22px 44px">ðŸš‘ Open AidReach App</a>
+        </div>
+        <div style="margin-top:24px;font-size:13px;color:var(--text-3)">Free Â· No signup required to access emergency
+            help Â· Works offline</div>
+    </div>
+
+    <!-- ======== FOOTER ======== -->
+    <footer>
+        <div class="footer-brand">
+            <svg width="28" height="28" viewBox="0 0 100 100">
+                <rect x="38" y="5" width="24" height="90" rx="6" fill="#E53935" />
+                <rect x="5" y="38" width="90" height="24" rx="6" fill="#E53935" />
+            </svg>
+            AidReach
+        </div>
+        <div class="footer-links">
+            <a href="#features">Features</a>
+            <a href="#modules">Modules</a>
+            <a href="#offline">Offline Mode</a>
+            <a href="index.html">Open App</a>
+        </div>
+        <div class="footer-copy">Â© 2026 AidReach Â· Offline First-Aid Guide Â· All data stored locally on your device Â· No
+            data collected</div>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#E53935" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="AidReach" />
+    <meta name="description"
+        content="Offline First-Aid Guide for rural areas and disaster situations. Works when the internet and doctors don't." />
+    <title>AidReach — Offline First-Aid Guide</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="main.css" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
+</head>
+
+<body>
+
+    <!-- ============================================================ OFFLINE BADGE -->
+    <div class="offline-badge" id="offline-badge">
+        <div class="offline-dot"></div>
+        <span class="offline-label">Offline Mode</span>
+    </div>
+
+    <!-- ============================================================ DESKTOP SIDEBAR -->
+    <aside class="desktop-sidebar" id="desktop-sidebar">
+        <div class="sidebar-logo">
+            <svg width="26" height="26" viewBox="0 0 100 100">
+                <rect x="38" y="5" width="24" height="90" rx="6" fill="#E53935" />
+                <rect x="5" y="38" width="90" height="24" rx="6" fill="#E53935" />
+            </svg>
+            AidReach
+        </div>
+        <button class="sidebar-nav-item active" id="sb-dashboard" data-action="go-dashboard">
+            <span class="s-icon">🆘</span> Emergency
+        </button>
+        <button class="sidebar-nav-item" id="sb-profile" data-action="go-profile">
+            <span class="s-icon">👤</span> Medical Profile
+        </button>
+        <button class="sidebar-nav-item" id="sb-settings" data-action="go-settings">
+            <span class="s-icon">⚙️</span> Settings
+        </button>
+        <button class="sidebar-nav-item" data-action="show-disaster">
+            <span class="s-icon">⚡</span> Demo Mode
+        </button>
+        <a href="landing.html" class="sidebar-website-btn">🌐 View Website →</a>
+        <div class="sidebar-version">AidReach v2.0 · Offline PWA</div>
+    </aside>
+
+    <!-- ============================================================ APP MAIN -->
+    <div class="app-main">
+
+        <!-- ============================================================ VOICE TOAST -->
+        <div class="voice-toast" id="voice-toast">
+            <div class="voice-wave">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <span class="voice-text">AidReach ready</span>
+        </div>
+
+        <!-- ============================================================ DISASTER OVERLAY -->
+        <div class="disaster-mode-overlay" id="disaster-overlay">
+            <div class="disaster-modal">
+                <div class="disaster-modal-icon">⚠️</div>
+                <div class="disaster-modal-title" data-i18n="disaster_title">DISASTER SIMULATION MODE</div>
+                <div class="disaster-modal-sub" data-i18n="disaster_sub">This demo simulates a complete offline
+                    environment — no
+                    internet, no server, no cloud. All features are available 100% offline on this device.</div>
+                <div class="disaster-feature">📴 Airplane Mode Simulation — Works with no signal</div>
+                <div class="disaster-feature">💾 All data stored via IndexedDB — No cloud sync</div>
+                <div class="disaster-feature">⚡ Cached via Service Worker — Instant load after install</div>
+                <div class="disaster-feature">🔐 Registration &amp; PIN Auth — Fully offline</div>
+                <div class="disaster-feature">🔊 Offline voice guidance — Web Speech API, local</div>
+                <button class="btn-dismiss" data-action="dismiss-disaster">✅ Got it — Close Demo</button>
+            </div>
+        </div>
+
+        <!-- ============================================================ SCREEN: SPLASH -->
+        <div class="screen active" id="screen-splash">
+            <svg class="splash-cross" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <rect x="38" y="5" width="24" height="90" rx="6" fill="#E53935" />
+                <rect x="5" y="38" width="90" height="24" rx="6" fill="#E53935" />
+                <rect x="38" y="5" width="24" height="90" rx="6" fill="url(#grd)" opacity="0.3" />
+                <defs>
+                    <linearGradient id="grd" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#fff" stop-opacity="0.6" />
+                        <stop offset="100%" stop-color="#fff" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <div class="splash-brand">AidReach</div>
+            <div class="splash-tagline">"Works when the internet<br>and doctors don't."</div>
+            <div class="splash-loader">
+                <div class="splash-loader-bar"></div>
+            </div>
+            <div class="splash-version">v2.0 · Offline First-Aid Guide</div>
+        </div>
+
+        <!-- ============================================================ SCREEN: AUTH (Register + Login) -->
+        <div class="screen auth-screen" id="screen-auth">
+
+            <!-- Desktop Left Hero Panel (hidden on mobile via CSS) -->
+            <div class="auth-hero-desktop">
+                <svg class="auth-hero-desktop-cross" width="72" height="72" viewBox="0 0 100 100">
+                    <rect x="38" y="5" width="24" height="90" rx="6" fill="#E53935" />
+                    <rect x="5" y="38" width="90" height="24" rx="6" fill="#E53935" />
+                </svg>
+                <h2>Emergency First Aid,<br><span style="color:var(--red-light)">Always Available</span></h2>
+                <p>Your account is stored entirely on this device. No cloud, no server — works with zero internet
+                    connection.
+                </p>
+                <div class="auth-hero-desktop-stats">
+                    <div class="auth-hero-stat">
+                        <div class="auth-hero-stat-num">5+</div>
+                        <div class="auth-hero-stat-label">Modules</div>
+                    </div>
+                    <div class="auth-hero-stat">
+                        <div class="auth-hero-stat-num">0 KB</div>
+                        <div class="auth-hero-stat-label">Data Online</div>
+                    </div>
+                    <div class="auth-hero-stat">
+                        <div class="auth-hero-stat-num">2</div>
+                        <div class="auth-hero-stat-label">Languages</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right panel wrapper (mobile: contents, desktop: flex column) -->
+            <div class="auth-right-panel">
+                <!-- Hero -->
+                <div class="auth-hero">
+                    <div class="auth-logo">
+                        <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="38" y="5" width="24" height="90" rx="6" fill="#E53935" />
+                            <rect x="5" y="38" width="90" height="24" rx="6" fill="#E53935" />
+                        </svg>
+                        <div class="auth-logo-name">AidReach</div>
+                    </div>
+                    <div class="auth-title" id="auth-main-title">Create Your Account</div>
+                    <div class="auth-sub">Your medical profile stays on this device</div>
+                </div>
+
+                <!-- Tab Switcher -->
+                <div class="auth-tabs">
+                    <button class="auth-tab active" id="tab-register" data-action="auth-tab" data-tab="register">📝
+                        Register</button>
+                    <button class="auth-tab" id="tab-login" data-action="auth-tab" data-tab="login">🔑 Login</button>
+                </div>
+
+                <!-- ══ REGISTER PANEL ══ -->
+                <div class="auth-card" id="panel-register">
+                    <div class="auth-error" id="reg-error"></div>
+
+                    <div class="auth-section-label">Personal Information</div>
+
+                    <!-- Full Name -->
+                    <div class="float-group">
+                        <input class="float-input" id="reg-name" type="text" placeholder="x" autocomplete="name" />
+                        <label class="float-label" for="reg-name">👤 Full Name</label>
+                    </div>
+                    <!-- Email -->
+                    <div class="float-group">
+                        <input class="float-input" id="reg-email" type="email" placeholder="x" autocomplete="email" />
+                        <label class="float-label" for="reg-email">✉️ Email Address</label>
+                    </div>
+                    <!-- Phone -->
+                    <div class="float-group">
+                        <input class="float-input" id="reg-phone" type="tel" placeholder="x" autocomplete="tel" />
+                        <label class="float-label" for="reg-phone">📱 Phone Number</label>
+                    </div>
+
+                    <div class="auth-section-label" style="margin-top:6px">Set a 4-Digit Emergency PIN</div>
+                    <div class="pin-hint">Used to unlock the app — no internet required</div>
+
+                    <!-- PIN digits -->
+                    <div class="inline-pin" id="reg-pin-row">
+                        <input class="inline-pin-digit" id="rp0" type="number" min="0" max="9" maxlength="1"
+                            placeholder="–" />
+                        <input class="inline-pin-digit" id="rp1" type="number" min="0" max="9" maxlength="1"
+                            placeholder="–" />
+                        <input class="inline-pin-digit" id="rp2" type="number" min="0" max="9" maxlength="1"
+                            placeholder="–" />
+                        <input class="inline-pin-digit" id="rp3" type="number" min="0" max="9" maxlength="1"
+                            placeholder="–" />
+                    </div>
+
+                    <button class="btn-auth" id="btn-register" data-action="do-register">
+                        🚀 Create Account &amp; Enter
+                    </button>
+
+                    <div class="auth-trust">🔒 All data stored locally — never uploaded</div>
+
+                    <div class="auth-switch-text">
+                        Already have an account? <span class="auth-link" data-action="auth-tab" data-tab="login">Login
+                            →</span>
+                    </div>
+                </div>
+
+                <!-- ══ LOGIN PANEL ══ -->
+                <div class="auth-card" id="panel-login" style="display:none">
+                    <div class="auth-error" id="login-error"></div>
+
+                    <div class="auth-section-label">Sign In to AidReach</div>
+
+                    <!-- Email -->
+                    <div class="float-group">
+                        <input class="float-input" id="login-email" type="email" placeholder="x" autocomplete="email" />
+                        <label class="float-label" for="login-email">✉️ Email Address</label>
+                    </div>
+
+                    <div class="auth-section-label" style="margin-top:6px">Enter Your 4-Digit PIN</div>
+
+                    <!-- PIN digits -->
+                    <div class="inline-pin">
+                        <input class="inline-pin-digit" id="lp0" type="number" min="0" max="9" maxlength="1"
+                            placeholder="–" />
+                        <input class="inline-pin-digit" id="lp1" type="number" min="0" max="9" maxlength="1"
+                            placeholder="–" />
+                        <input class="inline-pin-digit" id="lp2" type="number" min="0" max="9" maxlength="1"
+                            placeholder="–" />
+                        <input class="inline-pin-digit" id="lp3" type="number" min="0" max="9" maxlength="1"
+                            placeholder="–" />
+                    </div>
+
+                    <button class="btn-auth" id="btn-login" data-action="do-login">
+                        🔓 Login Securely
+                    </button>
+
+                    <div class="auth-trust">🔒 PIN verified locally — no server contact</div>
+
+                    <div class="auth-switch-text">
+                        New here? <span class="auth-link" data-action="auth-tab" data-tab="register">Create Account
+                            →</span>
+                    </div>
+                </div>
+            </div><!-- /.auth-right-panel -->
+        </div>
+
+        <!-- ============================================================ SCREEN: PROFILE -->
+        <div class="screen" id="screen-profile">
+            <div class="screen-header">
+                <button class="btn-back" data-action="go-dashboard">←</button>
+                <div class="screen-title" data-i18n="profile">Medical Profile</div>
+            </div>
+            <div class="scroll-area">
+                <div class="profile-card">
+                    <div class="profile-avatar" id="prof-avatar">U</div>
+                    <div class="form-group">
+                        <div class="form-label">Your Name</div>
+                        <input class="form-input" id="prof-name" type="text" placeholder="Enter your name" />
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label">Email</div>
+                        <input class="form-input" id="prof-email" type="email" placeholder="you@email.com" readonly
+                            style="opacity:0.6" />
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label">Phone</div>
+                        <input class="form-input" id="prof-phone" type="tel" placeholder="+91 XXXXX XXXXX" />
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label">Blood Group</div>
+                        <div class="blood-grid">
+                            <button class="blood-btn" data-action="blood-select" data-blood="A+">A+</button>
+                            <button class="blood-btn" data-action="blood-select" data-blood="A-">A-</button>
+                            <button class="blood-btn" data-action="blood-select" data-blood="B+">B+</button>
+                            <button class="blood-btn" data-action="blood-select" data-blood="B-">B-</button>
+                            <button class="blood-btn" data-action="blood-select" data-blood="O+">O+</button>
+                            <button class="blood-btn" data-action="blood-select" data-blood="O-">O-</button>
+                            <button class="blood-btn" data-action="blood-select" data-blood="AB+">AB+</button>
+                            <button class="blood-btn" data-action="blood-select" data-blood="AB-">AB-</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label">Known Allergies</div>
+                        <input class="form-input" id="prof-allergies" type="text"
+                            placeholder="e.g., Penicillin, Peanuts" />
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label">Emergency Contact</div>
+                        <input class="form-input" id="prof-contact" type="tel" placeholder="+91 XXXXX XXXXX" />
+                    </div>
+                    <button class="btn-primary" data-action="save-profile" style="margin-top:8px">💾 Save
+                        Profile</button>
+                    <div style="text-align:center;font-size:11px;color:var(--text-muted);margin-top:8px">🔒 Stored only
+                        on this
+                        device</div>
+                </div>
+            </div>
+            <div class="nav-spacer"></div>
+        </div>
+
+        <!-- ============================================================ SCREEN: DASHBOARD -->
+        <div class="screen" id="screen-dashboard">
+            <div class="dash-header">
+                <div>
+                    <div class="dash-greet" data-i18n="greeting">Hello,</div>
+                    <div class="dash-name" id="dash-user-name">User</div>
+                </div>
+                <div class="dash-brand">
+                    <svg width="28" height="28" viewBox="0 0 100 100">
+                        <rect x="38" y="5" width="24" height="90" rx="6" fill="#FF5252" />
+                        <rect x="5" y="38" width="90" height="24" rx="6" fill="#FF5252" />
+                    </svg>
+                    AidReach
+                </div>
+            </div>
+
+            <div id="dash-info" class="dash-info-bar" style="font-size:13px">
+                <span>Touch an emergency below to get instant help</span>
+            </div>
+
+            <div class="section-title" data-i18n="emergency_label">EMERGENCY</div>
+
+            <div class="emergency-grid">
+                <button class="emg-btn featured" data-action="go-cpr">
+                    <div class="emg-icon">❤️</div>
+                    <div>
+                        <div class="emg-title" data-i18n="cpr">CPR</div>
+                        <div class="emg-sub" data-i18n="cpr_sub">Life-saving compressions</div>
+                    </div>
+                    <div class="emg-badge">CRITICAL</div>
+                </button>
+                <button class="emg-btn" data-action="go-bleeding">
+                    <div class="emg-icon">🩸</div>
+                    <div class="emg-title" data-i18n="bleeding">Bleeding</div>
+                    <div class="emg-sub" data-i18n="bleeding_sub">Control severe bleeding</div>
+                </button>
+                <button class="emg-btn" data-action="go-burns">
+                    <div class="emg-icon">🔥</div>
+                    <div class="emg-title" data-i18n="burns">Burns</div>
+                    <div class="emg-sub" data-i18n="burns_sub">10-min cool water timer</div>
+                </button>
+                <button class="emg-btn" data-action="go-fracture">
+                    <div class="emg-icon">🦴</div>
+                    <div class="emg-title" data-i18n="fracture">Fracture</div>
+                    <div class="emg-sub" data-i18n="fracture_sub">Immobilization steps</div>
+                </button>
+                <button class="emg-btn" data-action="go-choking">
+                    <div class="emg-icon">😮‍💨</div>
+                    <div class="emg-title" data-i18n="choking">Choking</div>
+                    <div class="emg-sub" data-i18n="choking_sub">Adult &amp; Child guidance</div>
+                </button>
+            </div>
+
+            <div class="disaster-banner" data-action="show-disaster">
+                <div class="disaster-banner-icon">⚡</div>
+                <div class="disaster-banner-text">
+                    <div class="disaster-banner-title">Disaster Simulation Mode</div>
+                    <div class="disaster-banner-sub">Tap to demo offline capabilities for judges</div>
+                </div>
+                <div class="disaster-banner-arrow">›</div>
+            </div>
+
+            <div class="nav-spacer"></div>
+        </div>
+
+        <!-- ============================================================ SCREEN: CPR -->
+        <div class="screen emg-screen" id="screen-cpr">
+            <div class="emg-topbar">
+                <button class="btn-back" data-action="go-back">←</button>
+                <div class="emg-topbar-icon">❤️</div>
+                <div class="emg-topbar-title" data-i18n="cpr_title">CPR Guide</div>
+            </div>
+            <div class="cpr-metronome">
+                <div class="cpr-counter" id="cpr-counter">0</div>
+                <div class="cpr-counter-label" data-i18n="cpr_count">Compressions</div>
+                <button class="cpr-heart" id="cpr-heart" data-action="cpr-toggle" aria-label="CPR Heart">
+                    <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <radialGradient id="hg" cx="50%" cy="40%" r="60%">
+                                <stop offset="0%" stop-color="#FF5252" />
+                                <stop offset="100%" stop-color="#B71C1C" />
+                            </radialGradient>
+                        </defs>
+                        <path
+                            d="M50 85 C20 60, 0 45, 0 25 C0 10, 12 0, 25 0 C35 0, 44 6, 50 14 C56 6, 65 0, 75 0 C88 0, 100 10, 100 25 C100 45, 80 60, 50 85Z"
+                            fill="url(#hg)" />
+                        <path
+                            d="M50 85 C20 60, 0 45, 0 25 C0 10, 12 0, 25 0 C35 0, 44 6, 50 14 C56 6, 65 0, 75 0 C88 0, 100 10, 100 25 C100 45, 80 60, 50 85Z"
+                            fill="rgba(255,255,255,0.15)" clip-path="inset(0 0 70% 0)" />
+                        <polyline points="10,50 22,50 28,30 34,68 40,25 46,62 52,50 65,50 68,40 71,58 74,50 90,50"
+                            fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <div class="cpr-bpm">110</div>
+                <div class="cpr-bpm-label">BPM Target</div>
+                <div class="cpr-instruction" id="cpr-instruction" data-i18n="cpr_instruction">Push HARD &amp; FAST</div>
+                <div class="cpr-sub" id="cpr-sub" data-i18n="cpr_sub_text">2 inches deep · 110 BPM · Center of chest
+                </div>
+            </div>
+            <div class="cpr-controls">
+                <button class="btn-cpr-start" id="cpr-start-btn" data-action="cpr-toggle" data-i18n="cpr_start">START
+                    CPR</button>
+                <button class="btn-cpr-stop" data-action="cpr-stop" data-i18n="cpr_stop">STOP</button>
+            </div>
+        </div>
+
+        <!-- ============================================================ SCREEN: BLEEDING -->
+        <div class="screen emg-screen" id="screen-bleeding">
+            <div class="emg-topbar">
+                <button class="btn-back" data-action="go-back">←</button>
+                <div class="emg-topbar-icon">🩸</div>
+                <div class="emg-topbar-title" data-i18n="bleeding_title">Bleeding Control</div>
+            </div>
+            <div class="step-container">
+                <div class="step-num" id="bleed-step-num">STEP 1 OF 5</div>
+                <div class="step-visual" id="bleed-step-icon">🤲</div>
+                <div class="step-instruction" id="bleed-step-title">Apply Direct Pressure</div>
+                <div class="step-sub" id="bleed-step-sub">Use cloth, clothing or bandage. Press HARD with both hands.
+                </div>
+            </div>
+            <div class="step-dots" id="bleed-dots"></div>
+            <div class="step-nav">
+                <button class="btn-step" id="bleed-prev" data-action="bleed-prev">← Prev</button>
+                <button class="btn-step primary" id="bleed-next" data-action="bleed-next">Next →</button>
+            </div>
+        </div>
+
+        <!-- ============================================================ SCREEN: BURNS -->
+        <div class="screen emg-screen" id="screen-burns">
+            <div class="emg-topbar">
+                <button class="btn-back" data-action="go-back">←</button>
+                <div class="emg-topbar-icon">🔥</div>
+                <div class="emg-topbar-title" data-i18n="burns_title">Burns Treatment</div>
+            </div>
+            <div class="step-container">
+                <div class="step-num" id="burns-step-num">STEP 1 OF 4</div>
+                <div class="step-visual" id="burns-step-icon">💧</div>
+                <div class="step-instruction" id="burns-step-title">Cool with Water</div>
+                <div class="step-sub" id="burns-step-sub">Run cool running water over burn for 10 minutes.</div>
+                <div class="burns-timer-ring">
+                    <svg viewBox="0 0 200 200">
+                        <circle class="burns-timer-bg" cx="100" cy="100" r="90" />
+                        <circle class="burns-timer-fg" id="burns-ring" cx="100" cy="100" r="90"
+                            style="stroke-dashoffset:565.48" />
+                    </svg>
+                    <div class="burns-timer-text">
+                        <div class="burns-timer-time" id="burns-time">10:00</div>
+                        <div class="burns-timer-label" data-i18n="timer_label">minutes remaining</div>
+                    </div>
+                </div>
+                <button class="btn-primary" id="burns-timer-btn" data-action="burns-timer" data-i18n="timer_start">START
+                    10-MIN
+                    TIMER</button>
+            </div>
+            <div class="step-dots" id="burns-dots"></div>
+            <div class="step-nav">
+                <button class="btn-step" id="burns-prev" data-action="burns-prev">← Prev</button>
+                <button class="btn-step primary" id="burns-next" data-action="burns-next">Next →</button>
+            </div>
+        </div>
+
+        <!-- ============================================================ SCREEN: FRACTURE -->
+        <div class="screen emg-screen" id="screen-fracture">
+            <div class="emg-topbar">
+                <button class="btn-back" data-action="go-back">←</button>
+                <div class="emg-topbar-icon">🦴</div>
+                <div class="emg-topbar-title" data-i18n="fracture_title">Fracture Care</div>
+            </div>
+            <div class="step-container">
+                <div class="step-num" id="frac-step-num">STEP 1 OF 5</div>
+                <div class="step-visual" id="frac-step-icon">🛑</div>
+                <div class="step-instruction" id="frac-step-title">Do NOT Move</div>
+                <div class="step-sub" id="frac-step-sub">Keep the person still. Do not straighten or reposition the
+                    injured
+                    limb.
+                </div>
+            </div>
+            <div class="step-dots" id="frac-dots"></div>
+            <div class="step-nav">
+                <button class="btn-step" id="frac-prev" data-action="frac-prev">← Prev</button>
+                <button class="btn-step primary" id="frac-next" data-action="frac-next">Next →</button>
+            </div>
+        </div>
+
+        <!-- ============================================================ SCREEN: CHOKING -->
+        <div class="screen emg-screen" id="screen-choking">
+            <div class="emg-topbar">
+                <button class="btn-back" data-action="go-back">←</button>
+                <div class="emg-topbar-icon">😮‍💨</div>
+                <div class="emg-topbar-title" data-i18n="choking_title">Choking Relief</div>
+            </div>
+            <div class="step-container">
+                <div class="choking-toggle">
+                    <button class="choking-toggle-btn active" data-action="choke-mode" data-mode="adult"
+                        data-i18n="adult">Adult</button>
+                    <button class="choking-toggle-btn" data-action="choke-mode" data-mode="child"
+                        data-i18n="child">Child
+                        (&gt;1yr)</button>
+                </div>
+                <div class="step-num" id="choke-step-num">STEP 1 OF 4</div>
+                <div class="step-visual" id="choke-step-icon">🗣️</div>
+                <div class="step-instruction" id="choke-step-title">Are you choking?</div>
+                <div class="step-sub" id="choke-step-sub">If cannot speak, cough or breathe — act immediately.</div>
+            </div>
+            <div class="step-dots" id="choke-dots"></div>
+            <div class="step-nav">
+                <button class="btn-step" id="choke-prev" data-action="choke-prev">← Prev</button>
+                <button class="btn-step primary" id="choke-next" data-action="choke-next">Next →</button>
+            </div>
+        </div>
+
+        <!-- ============================================================ SCREEN: SETTINGS -->
+        <div class="screen" id="screen-settings">
+            <div class="screen-header">
+                <div class="screen-title" data-i18n="settings_title">Settings</div>
+            </div>
+            <div class="scroll-area">
+                <div class="settings-section">
+                    <div class="settings-section-title" data-i18n="language">Language</div>
+                    <div class="lang-toggle">
+                        <button class="lang-btn active" data-action="switch-lang" data-lang="en">🇺🇸 English</button>
+                        <button class="lang-btn" data-action="switch-lang" data-lang="hi">🇮🇳 हिंदी</button>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <div class="settings-section-title">Preferences</div>
+                    <div class="settings-item" data-action="toggle-voice">
+                        <div class="settings-item-left">
+                            <div class="settings-item-icon">🔊</div>
+                            <div>
+                                <div class="settings-item-title" data-i18n="voice_guidance">Voice Guidance</div>
+                                <div class="settings-item-sub">Spoken step-by-step instructions</div>
+                            </div>
+                        </div>
+                        <div class="toggle on" id="voice-toggle"></div>
+                    </div>
+                    <div class="settings-item" data-action="show-disaster">
+                        <div class="settings-item-left">
+                            <div class="settings-item-icon">⚡</div>
+                            <div>
+                                <div class="settings-item-title" data-i18n="disaster_mode">Disaster Simulation Mode
+                                </div>
+                                <div class="settings-item-sub">Demo offline features for hackathon</div>
+                            </div>
+                        </div>
+                        <div class="settings-item-right">›</div>
+                    </div>
+                    <div class="settings-item" data-action="go-profile">
+                        <div class="settings-item-left">
+                            <div class="settings-item-icon">👤</div>
+                            <div>
+                                <div class="settings-item-title" data-i18n="profile">Medical Profile</div>
+                                <div class="settings-item-sub">Name, blood group, allergies</div>
+                            </div>
+                        </div>
+                        <div class="settings-item-right">›</div>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <div class="settings-section-title">App Info</div>
+                    <div class="settings-item" style="cursor:default">
+                        <div class="settings-item-left">
+                            <div class="settings-item-icon">ℹ️</div>
+                            <div>
+                                <div class="settings-item-title">AidReach v2.0</div>
+                                <div class="settings-item-sub">Offline First-Aid PWA · All data local</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <button class="btn-secondary" data-action="logout"
+                        style="color:var(--red-light);border-color:rgba(229,57,53,0.3)">
+                        🔒 <span data-i18n="logout">Lock App</span>
+                    </button>
+                </div>
+            </div>
+            <div class="nav-spacer"></div>
+        </div>
+
+        <!-- ============================================================ BOTTOM NAV -->
+        <nav class="bottom-nav" id="bottom-nav" style="display:none">
+            <button class="nav-btn active" data-action="go-dashboard" data-screen="dashboard">
+                <span class="nav-btn-icon">🆘</span>
+                <span>Emergency</span>
+            </button>
+            <button class="nav-btn" data-action="go-profile" data-screen="profile">
+                <span class="nav-btn-icon">👤</span>
+                <span>Profile</span>
+            </button>
+            <button class="nav-btn" data-action="go-settings" data-screen="settings">
+                <span class="nav-btn-icon">⚙️</span>
+                <span>Settings</span>
+            </button>
+        </nav>
+
+    </div><!-- /.app-main -->
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('SW registered:', reg.scope))
+                    .catch(err => console.warn('SW failed:', err));
+            });
+        }
+    </script>
+    <script type="module" src="app.js"></script>
+</body>
+
+</html>
