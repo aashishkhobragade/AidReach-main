@@ -33,8 +33,8 @@
   <!-- UI Translation Loader Overlay -->
   <div id="translation-loader" style="display: none;">
     <div class="loader-spinner"></div>
-    <h3 style="color: var(--text-main); font-weight: 700;">Translating Interface...</h3>
-    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">Powered by Sarvam AI</p>
+    <h3>Translating Interface...</h3>
+    <p>Powered by Sarvam AI</p>
   </div>
 
   <div class="app-container">
@@ -154,9 +154,8 @@
 
       <div class="section-title">Tools</div>
 
-      <div class="feature-card" data-action="open-scan">
-        <div class="feature-icon" style="color: #8B5CF6; background: #F3E8FF;"><i
-            class="ph-fill ph-magnifying-glass"></i></div>
+      <div class="feature-card glass" data-action="open-scan">
+        <div class="feature-icon"><i class="ph-fill ph-magnifying-glass"></i></div>
         <div class="feature-info">
           <div class="feature-title">Symptom Checker</div>
           <div class="feature-sub">AI-powered analysis</div>
@@ -164,8 +163,8 @@
         <i class="ph-bold ph-caret-right feature-arrow"></i>
       </div>
 
-      <div class="feature-card" data-action="open-map">
-        <div class="feature-icon" style="color: #10B981; background: #ECFDF5;"><i class="ph-fill ph-hospital"></i></div>
+      <div class="feature-card glass" data-action="open-map">
+        <div class="feature-icon"><i class="ph-fill ph-hospital"></i></div>
         <div class="feature-info">
           <div class="feature-title">Nearby Hospitals</div>
           <div class="feature-sub">Offline Map Available</div>
@@ -173,9 +172,8 @@
         <i class="ph-bold ph-caret-right feature-arrow"></i>
       </div>
 
-      <div class="feature-card">
-        <div class="feature-icon" style="color: #EF4444; background: #FEF2F2;"><i class="ph-fill ph-phone-call"></i>
-        </div>
+      <div class="feature-card glass">
+        <div class="feature-icon"><i class="ph-fill ph-phone-call"></i></div>
         <div class="feature-info">
           <div class="feature-title">Emergency Contacts</div>
           <div class="feature-sub">Speed dial helpers</div>
@@ -183,9 +181,8 @@
         <i class="ph-bold ph-caret-right feature-arrow"></i>
       </div>
 
-      <div class="feature-card">
-        <div class="feature-icon" style="color: #3B82F6; background: #EFF6FF;"><i class="ph-fill ph-graduation-cap"></i>
-        </div>
+      <div class="feature-card glass">
+        <div class="feature-icon"><i class="ph-fill ph-graduation-cap"></i></div>
         <div class="feature-info">
           <div class="feature-title">Learn First Aid</div>
           <div class="feature-sub">Interactive courses</div>
@@ -229,16 +226,13 @@
         <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
         <div class="emg-topbar-title" data-i18n="bleeding_title">Bleeding Control</div>
       </div>
-      <div class="step-container">
+      <div class="step-container glass">
         <div class="step-num" id="bleed-step-num">STEP 1 OF 5</div>
         <div class="step-visual" id="bleed-step-icon">🤲</div>
-        <div class="step-instruction" id="bleed-step-title"
-          style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem">Apply Direct Pressure</div>
-        <div class="step-sub" id="bleed-step-sub" style="color:var(--text-muted);line-height:1.5">Use cloth, clothing or
-          bandage. Press HARD with both hands.</div>
+        <div class="step-instruction" id="bleed-step-title">Apply Direct Pressure</div>
+        <div class="step-sub" id="bleed-step-sub">Use cloth, clothing or bandage. Press HARD with both hands.</div>
       </div>
-      <div class="step-dots" id="bleed-dots" style="display:flex;justify-content:center;gap:0.5rem;margin-bottom:2rem">
-      </div>
+      <div class="step-dots" id="bleed-dots"></div>
       <div class="step-nav" style="display:flex;gap:1rem">
         <button class="btn btn-outline" id="bleed-prev">← Prev</button>
         <button class="btn btn-primary" id="bleed-next">Next →</button>
@@ -253,13 +247,11 @@
         <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
         <div class="emg-topbar-title" data-i18n="burns_title">Burns Treatment</div>
       </div>
-      <div class="step-container">
+      <div class="step-container glass">
         <div class="step-num" id="burns-step-num">STEP 1 OF 4</div>
         <div class="step-visual" id="burns-step-icon">💧</div>
-        <div class="step-instruction" id="burns-step-title"
-          style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem">Cool with Water</div>
-        <div class="step-sub" id="burns-step-sub" style="color:var(--text-muted);line-height:1.5">Run cool running water
-          over burn for 10 minutes.</div>
+        <div class="step-instruction" id="burns-step-title">Cool with Water</div>
+        <div class="step-sub" id="burns-step-sub">Run cool running water over burn for 10 minutes.</div>
         <div class="burns-timer-ring">
           <svg viewBox="0 0 200 200">
             <circle class="burns-timer-bg" cx="100" cy="100" r="90" />
@@ -272,8 +264,7 @@
         </div>
         <button class="btn btn-outline" id="burns-timer-btn" style="margin-top: 1rem;">START 10-MIN TIMER</button>
       </div>
-      <div class="step-dots" id="burns-dots" style="display:flex;justify-content:center;gap:0.5rem;margin-bottom:2rem">
-      </div>
+      <div class="step-dots" id="burns-dots"></div>
       <div class="step-nav" style="display:flex;gap:1rem">
         <button class="btn btn-outline" id="burns-prev">← Prev</button>
         <button class="btn btn-primary" id="burns-next">Next →</button>
@@ -288,16 +279,14 @@
         <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
         <div class="emg-topbar-title" data-i18n="fracture_title">Fracture Care</div>
       </div>
-      <div class="step-container">
+      <div class="step-container glass">
         <div class="step-num" id="frac-step-num">STEP 1 OF 5</div>
         <div class="step-visual" id="frac-step-icon">🛑</div>
-        <div class="step-instruction" id="frac-step-title"
-          style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem">Do NOT Move</div>
-        <div class="step-sub" id="frac-step-sub" style="color:var(--text-muted);line-height:1.5">Keep the person still.
-          Do not straighten or reposition the injured limb.</div>
+        <div class="step-instruction" id="frac-step-title">Do NOT Move</div>
+        <div class="step-sub" id="frac-step-sub">Keep the person still. Do not straighten or reposition the injured
+          limb.</div>
       </div>
-      <div class="step-dots" id="frac-dots" style="display:flex;justify-content:center;gap:0.5rem;margin-bottom:2rem">
-      </div>
+      <div class="step-dots" id="frac-dots"></div>
       <div class="step-nav" style="display:flex;gap:1rem">
         <button class="btn btn-outline" id="frac-prev">← Prev</button>
         <button class="btn btn-primary" id="frac-next">Next →</button>
