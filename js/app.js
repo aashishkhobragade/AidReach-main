@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Trigger screen-specific logic
-        if (screenId === 'map' && window.initMap) {
+        if (screenId === 'dashboard' && window.initMap) {
             if (!window.mapInstance) {
                 // Short timeout allows DOM flexboxes to settle before Leaflet calculates bounds
                 setTimeout(() => window.initMap(), 150);
@@ -231,7 +231,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Emergency Guides Navigation ---
     document.querySelectorAll('[data-action="open-scan"], .nav-item[data-target="screen-scan"]').forEach(el => el.addEventListener('click', () => showScreen('scan')));
-    document.querySelectorAll('[data-action="open-map"], .nav-item[data-target="screen-map"]').forEach(el => el.addEventListener('click', () => { showScreen('map'); if (window.initMap) window.initMap(); }));
 
     document.querySelectorAll('.emg-card.bleeding').forEach(el => el.addEventListener('click', () => { showScreen('bleeding'); initBleeding(); }));
     document.querySelectorAll('.emg-card.burns').forEach(el => el.addEventListener('click', () => { showScreen('burns'); initBurns(); }));

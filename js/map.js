@@ -18,11 +18,7 @@ function checkNetworkStatus() {
 
 function updateMapBanner() {
     let banner = document.getElementById('map-status-banner');
-    if (!banner) {
-        banner = document.createElement('div');
-        banner.id = 'map-status-banner';
-        document.getElementById('view-map').appendChild(banner);
-    }
+    if (!banner) return;
 
     const isOnline = checkNetworkStatus();
     if (isOnline) {
@@ -243,18 +239,19 @@ function bindMapFilters() {
     const filters = document.querySelectorAll('.filter-btn');
     filters.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            filters.forEach(f => f.classList.remove('active'));
+            filters.forEach(f => {
+                f.classList.remove('active');
+                f.style.background = 'transparent';
+                f.style.color = 'var(--text-muted)';
+                f.style.boxShadow = 'none';
+            });
             const target = e.currentTarget;
             target.classList.add('active');
+            target.style.background = '#111111';
+            target.style.color = 'white';
+            target.style.boxShadow = '0 4px 10px rgba(0,0,0,0.15)';
             renderMarkers(target.getAttribute('data-type'));
         });
     });
 }
 
-document.querySelector('[data-target="view-map"]').addEventListener('click', () => {
-    if (!window.mapInstance) {
-        setTimeout(initMap, 300); // Wait a bit longer for UI animations to settle
-    } else {
-        setTimeout(() => window.mapInstance.invalidateSize(), 150);
-    }
-});

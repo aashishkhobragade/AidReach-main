@@ -163,38 +163,52 @@
         <i class="ph-bold ph-caret-right feature-arrow"></i>
       </div>
 
-      <div class="feature-card bg-pastel-purple" data-action="open-map">
-        <div class="feature-icon"><i class="ph-fill ph-hospital"></i></div>
-        <div class="feature-info">
-          <div class="feature-title" style="color: var(--primary);">Nearby Hospitals</div>
-          <div class="feature-sub" style="color: rgba(17,17,17,0.7);">Offline Map Available</div>
+      <div class="section-title" style="display:flex; align-items:center; justify-content:space-between;">
+        <span>Nearby Hospitals</span>
+        <div id="map-status-banner"
+          style="font-size:0.75rem; background:rgba(255,105,180,0.1); color:var(--primary); padding:2px 8px; border-radius:12px; display:flex; align-items:center; gap:4px; font-weight:600;">
+          <i class="ph ph-wifi-high"></i> <span>Live Map</span>
         </div>
-        <i class="ph-bold ph-caret-right feature-arrow"></i>
+      </div>
+      <div class="dashboard-map-container"
+        style="position:relative;width:100%;height:350px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);margin-bottom:1rem;box-shadow:var(--shadow-glass);z-index:10;">
+        <div id="map-container" style="width:100%;height:100%;background:#F1F5F9;position:absolute;top:0;left:0;"></div>
+
+        <div class="map-filters"
+          style="position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:0.5rem;background:rgba(255,255,255,0.9);backdrop-filter:blur(10px);padding:0.5rem;border-radius:var(--radius-pill);box-shadow:0 10px 25px rgba(0,0,0,0.1);z-index:1000;border:1px solid rgba(255,255,255,0.5);">
+          <button class="filter-btn active" data-type="hospital"
+            style="width:40px;height:40px;border-radius:50%;border:none;color:white;background:#111111;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 10px rgba(0,0,0,0.15);"><i
+              class="ph-fill ph-hospital" style="font-size:1.2rem"></i></button>
+          <button class="filter-btn" data-type="police"
+            style="width:40px;height:40px;border-radius:50%;border:none;background:transparent;color:var(--text-muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;"><i
+              class="ph-fill ph-police-car" style="font-size:1.2rem"></i></button>
+          <button class="filter-btn" data-type="ambulance"
+            style="width:40px;height:40px;border-radius:50%;border:none;background:transparent;color:var(--text-muted);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;"><i
+              class="ph-fill ph-ambulance" style="font-size:1.2rem"></i></button>
+        </div>
       </div>
 
-      <div class="feature-card glass">
+      <div class="feature-card bg-pastel-orange">
         <div class="feature-icon"><i class="ph-fill ph-phone-call"></i></div>
         <div class="feature-info">
-          <div class="feature-title">Emergency Contacts</div>
-          <div class="feature-sub">Speed dial helpers</div>
+          <div class="feature-title" style="color: var(--primary);">Emergency Contacts</div>
+          <div class="feature-sub" style="color: rgba(17,17,17,0.7);">Speed dial helpers</div>
         </div>
         <i class="ph-bold ph-caret-right feature-arrow"></i>
       </div>
 
-      <div class="feature-card glass">
+      <div class="feature-card bg-pastel-blue">
         <div class="feature-icon"><i class="ph-fill ph-graduation-cap"></i></div>
         <div class="feature-info">
-          <div class="feature-title">Learn First Aid</div>
-          <div class="feature-sub">Interactive courses</div>
+          <div class="feature-title" style="color: var(--primary);">Learn First Aid</div>
+          <div class="feature-sub" style="color: rgba(17,17,17,0.7);">Interactive courses</div>
         </div>
         <i class="ph-bold ph-caret-right feature-arrow"></i>
       </div>
 
     </main>
 
-    <!-- ==========================================
-       SCREEN: CPR guide
-       ========================================== -->
+
     <main id="screen-cpr" class="screen">
       <div class="emg-topbar">
         <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
@@ -358,39 +372,7 @@
       </div>
     </main>
 
-    <!-- ==========================================
-       SCREEN: MAP
-       ========================================== -->
-    <main id="screen-map" class="screen" style="display: none;">
-      <div class="emg-topbar" style="justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:1rem">
-          <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
-          <div class="emg-topbar-title" data-i18n="emergency_map">Emergency Map</div>
-        </div>
-        <div
-          style="font-size:0.8rem;background:#F1F5F9;padding:4px 8px;border-radius:12px;color:var(--text-muted);display:flex;align-items:center;gap:4px">
-          <i class="ph ph-wifi-slash"></i> <span data-i18n="offline_ready">Offline Ready</span>
-        </div>
-      </div>
 
-      <div
-        style="position:relative;flex:1;border-radius:var(--radius-lg);overflow:hidden;border:1px solid #E2E8F0;margin-bottom:1rem; min-height:450px;">
-        <div id="map-container" style="width:100%;height:100%;background:#F1F5F9;position:absolute;top:0;left:0;"></div>
-
-        <div class="map-filters"
-          style="position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:0.5rem;background:white;padding:0.5rem;border-radius:var(--radius-pill);box-shadow:var(--shadow-md);z-index:1000">
-          <button class="filter-btn active" data-type="hospital"
-            style="width:40px;height:40px;border-radius:50%;border:none;color:var(--text-main);display:flex;align-items:center;justify-content:center;cursor:pointer"><i
-              class="ph-fill ph-hospital" style="font-size:1.2rem"></i></button>
-          <button class="filter-btn" data-type="police"
-            style="width:40px;height:40px;border-radius:50%;border:none;background:#F1F5F9;color:var(--text-main);display:flex;align-items:center;justify-content:center;cursor:pointer"><i
-              class="ph-fill ph-police-car" style="font-size:1.2rem"></i></button>
-          <button class="filter-btn" data-type="ambulance"
-            style="width:40px;height:40px;border-radius:50%;border:none;background:#F1F5F9;color:var(--text-main);display:flex;align-items:center;justify-content:center;cursor:pointer"><i
-              class="ph-fill ph-ambulance" style="font-size:1.2rem"></i></button>
-        </div>
-      </div>
-    </main>
     <!-- ==========================================
        SETTINGS SCREEN
        ========================================== -->

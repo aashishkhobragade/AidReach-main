@@ -19,6 +19,8 @@
   /* Feature Card Pastels */
   --pastel-green: #DCE5C7;
   --pastel-purple: #DDE0ED;
+  --pastel-orange: #FDE8D7;
+  --pastel-blue: #D9E8F5;
 
   /* Typography */
   --text-main: #111111;
@@ -619,6 +621,16 @@ input {
 
 .feature-card.bg-pastel-purple {
   background: var(--pastel-purple);
+  border-color: transparent;
+}
+
+.feature-card.bg-pastel-orange {
+  background: var(--pastel-orange);
+  border-color: transparent;
+}
+
+.feature-card.bg-pastel-blue {
+  background: var(--pastel-blue);
   border-color: transparent;
 }
 
