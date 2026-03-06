@@ -301,20 +301,17 @@
         <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
         <div class="emg-topbar-title" data-i18n="choking_title">Choking Relief</div>
       </div>
-      <div class="step-container">
+      <div class="step-container glass">
         <div class="choking-toggle">
           <button class="choking-toggle-btn active" data-mode="adult">Adult</button>
           <button class="choking-toggle-btn" data-mode="child">Child (&gt;1yr)</button>
         </div>
         <div class="step-num" id="choke-step-num">STEP 1 OF 4</div>
         <div class="step-visual" id="choke-step-icon">🗣️</div>
-        <div class="step-instruction" id="choke-step-title"
-          style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem">Are you choking?</div>
-        <div class="step-sub" id="choke-step-sub" style="color:var(--text-muted);line-height:1.5">If cannot speak, cough
-          or breathe — act immediately.</div>
+        <div class="step-instruction" id="choke-step-title">Are you choking?</div>
+        <div class="step-sub" id="choke-step-sub">If cannot speak, cough or breathe — act immediately.</div>
       </div>
-      <div class="step-dots" id="choke-dots" style="display:flex;justify-content:center;gap:0.5rem;margin-bottom:2rem">
-      </div>
+      <div class="step-dots" id="choke-dots"></div>
       <div class="step-nav" style="display:flex;gap:1rem">
         <button class="btn btn-outline" id="choke-prev">← Prev</button>
         <button class="btn btn-primary" id="choke-next">Next →</button>
@@ -329,38 +326,34 @@
         <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
         <div class="emg-topbar-title">AI Injury Detection</div>
       </div>
-      <div class="scan-container" style="flex:1;display:flex;flex-direction:column;align-items:center;width:100%">
-        <p style="text-align:center;color:var(--text-muted);margin-bottom:1rem">Point camera at the wound for instant
-          first-aid suggestions.</p>
+      <div class="scan-container">
+        <p class="scan-description">Point camera at the wound for instant first-aid suggestions.</p>
 
-        <div class="camera-wrapper"
-          style="position:relative;width:100%;max-width:400px;aspect-ratio:3/4;background:#E2E8F0;border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1rem">
-          <video id="camera-feed" autoplay playsinline style="width:100%;height:100%;object-fit:cover"></video>
-          <canvas id="camera-canvas" style="display:none"></canvas>
-          <div class="scanner-overlay line-anim"
-            style="position:absolute;top:0;left:0;width:100%;height:2px;background:var(--primary);box-shadow:0 0 10px var(--primary);">
-          </div>
-          <div id="ai-status"
-            style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);color:white;padding:5px 15px;border-radius:20px;font-size:0.8rem">
-            Initializing Model...</div>
+        <div class="camera-wrapper glass">
+          <video id="camera-feed" autoplay playsinline></video>
+          <canvas id="camera-canvas"></canvas>
+          <div class="scanner-overlay line-anim"></div>
+          <div id="ai-status">Initializing Model...</div>
         </div>
 
-        <div style="display:flex;gap:1rem;margin-bottom:1rem;width:100%;max-width:400px">
-          <button id="capture-btn" class="btn btn-primary" style="flex:1" disabled>
+        <div class="camera-controls">
+          <button id="capture-btn" class="btn btn-primary" disabled>
             <i class="ph ph-camera"></i> Analyze Injury
           </button>
-          <button id="switch-camera-btn" class="btn btn-outline" style="padding:0 1rem">
+          <button id="switch-camera-btn" class="btn btn-outline">
             <i class="ph ph-arrows-clockwise"></i>
           </button>
         </div>
 
-        <div id="ai-result" class="hidden"
-          style="width:100%;max-width:400px;background:var(--surface);border-radius:var(--radius-md);padding:1.5rem;box-shadow:var(--shadow-sm);border:1px solid #E2E8F0;display:none;">
-          <h3 id="result-title" style="margin-bottom:0.5rem"></h3>
-          <div id="result-confidence"
-            style="height:4px;background:var(--primary);margin-bottom:1rem;border-radius:2px;width:0%"></div>
-          <p id="result-action" style="font-weight:600;margin-bottom:1rem"></p>
-          <div id="result-steps" style="font-size:0.9rem;color:var(--text-muted)"></div>
+        <div id="ai-result" class="hidden glass result-panel">
+          <h3 id="result-title">Analysis Result</h3>
+          <div id="result-confidence"></div>
+          <p id="result-action"></p>
+          <div class="symptoms-list-wrap">
+            <div class="symptoms-label">Identified Symptoms:</div>
+            <div id="result-symptoms"></div>
+          </div>
+          <div id="result-steps"></div>
         </div>
       </div>
     </main>

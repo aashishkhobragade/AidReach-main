@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (bottomNav) bottomNav.style.display = 'flex';
         }
     }
+    window.showScreen = showScreen;
 
     // --- Auth Screen Logic ---
     const tabLogin = document.getElementById('tab-btn-login');

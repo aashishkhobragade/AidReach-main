@@ -187,6 +187,19 @@ input {
   }
 }
 
+/* Loader Styles */
+#translation-loader h3 {
+  color: var(--text-main);
+  font-weight: 700;
+  margin: 0;
+}
+
+#translation-loader p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0 0;
+}
+
 /* Glassmorphism Common */
 .glass {
   background: var(--surface);
@@ -555,6 +568,14 @@ input {
   align-items: center;
   justify-content: center;
   color: var(--primary);
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-icon {
+  background: var(--surface);
+  border-color: var(--primary);
+  box-shadow: 0 0 15px var(--primary-glow);
 }
 
 .feature-info {
@@ -632,6 +653,206 @@ input {
   100% {
     transform: scale(1);
   }
+}
+
+/* ======== EMERGENCY GUIDE SHARED ======== */
+.step-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2.5rem 2rem;
+  margin-bottom: 2rem;
+  flex: 1;
+}
+
+.step-num {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.step-visual {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
+}
+
+.step-instruction {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.step-sub {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.step-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--surface-alt);
+  transition: all 0.3s ease;
+}
+
+.step-dot.active {
+  background: var(--primary);
+  width: 24px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+/* ======== SCANNER SCREEN ======== */
+.scan-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.scan-description {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.camera-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  margin: 0 auto 1.5rem;
+}
+
+#camera-feed {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scanner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--primary);
+  box-shadow: 0 0 15px var(--primary);
+}
+
+#ai-status {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.camera-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.result-panel {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: none;
+}
+
+#result-title {
+  margin-bottom: 0.75rem;
+  font-size: 1.5rem;
+}
+
+#result-confidence {
+  height: 6px;
+  background: var(--primary);
+  margin-bottom: 1.25rem;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 0 10px var(--primary-glow);
+  width: 0%;
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#result-action {
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.symptoms-list-wrap {
+  margin-bottom: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.symptoms-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  margin-bottom: 0.75rem;
+}
+
+#result-symptoms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.symptom-tag {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.symptom-tag i {
+  color: var(--primary);
+  font-size: 0.9rem;
+}
+
+#result-steps {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
 }
 
 /* ======== SETTINGS SCREEN ======== */
