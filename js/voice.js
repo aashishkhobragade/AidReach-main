@@ -2,18 +2,18 @@
 // AidReach - Voice Guidance Simulation
 // ============================================================
 
-let voiceEnabled = true;
-let isSpeaking = false;
-let utteranceQueue = [];
+window.voiceEnabled = true;
+window.isSpeaking = false;
+window.utteranceQueue = [];
 const synth = window.speechSynthesis;
 
-export function setVoiceEnabled(val) {
-    voiceEnabled = val;
+window.setVoiceEnabled = function (val) {
+    window.voiceEnabled = val;
     if (!val) { synth.cancel(); }
 }
 
-export function speak(text, lang = 'en') {
-    if (!voiceEnabled) { showToast(text); return; }
+window.speak = function (text, lang = 'en') {
+    if (!window.voiceEnabled) { showToast(text); return; }
     synth.cancel();
     const utter = new SpeechSynthesisUtterance(text);
     utter.lang = lang === 'hi' ? 'hi-IN' : 'en-US';
@@ -33,6 +33,6 @@ function showToast(text) {
     toast._timer = setTimeout(() => toast.classList.remove('visible'), 4000);
 }
 
-export function stopSpeaking() {
+window.stopSpeaking = function () {
     synth.cancel();
 }

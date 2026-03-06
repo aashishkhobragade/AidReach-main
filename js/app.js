@@ -1,12 +1,17 @@
-import { speak, stopSpeaking } from './voice.js';
-
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Screen Navigation Logic ---
     const screens = {
         auth: document.getElementById('screen-auth'),
         dashboard: document.getElementById('screen-dashboard'),
-        settings: document.getElementById('screen-settings')
+        settings: document.getElementById('screen-settings'),
+        bleeding: document.getElementById('screen-bleeding'),
+        burns: document.getElementById('screen-burns'),
+        cpr: document.getElementById('screen-cpr'),
+        fracture: document.getElementById('screen-fracture'),
+        choking: document.getElementById('screen-choking'),
+        scan: document.getElementById('screen-scan'),
+        map: document.getElementById('screen-map')
     };
 
     const bottomNav = document.getElementById('bottom-nav');
@@ -134,6 +139,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // --- AI Voice Bot Modal ---
+    const btnAiBot = document.getElementById('btn-ai-bot');
+    const aiModal = document.getElementById('ai-modal');
+    const btnCloseAi = document.getElementById('btn-close-ai');
+
+    if (btnAiBot && aiModal) {
+        btnAiBot.addEventListener('click', () => {
+            aiModal.style.display = 'flex';
+            window.speak("I am AidReach AI. How can I help you today?");
+        });
+        if (btnCloseAi) {
+            btnCloseAi.addEventListener('click', () => {
+                aiModal.style.display = 'none';
+                window.stopSpeaking();
+            });
+        }
+    }
+
+    // --- Language Selection Modal ---
+    const langModal = document.getElementById('lang-modal');
+    const btnCloseLang = document.getElementById('btn-close-lang');
+    // We bind the Profile tab to open language selection for now
+    const profileBtn = document.querySelector('.nav-item[data-target="#"]:last-child');
+    if (profileBtn && langModal) {
+        profileBtn.addEventListener('click', () => {
+            langModal.style.display = 'flex';
+        });
+        if (btnCloseLang) btnCloseLang.addEventListener('click', () => langModal.style.display = 'none');
+    }
 
     // --- Emergency SOS button animate (Mock interaction) ---
     const sosBtn = document.getElementById('btn-sos');
