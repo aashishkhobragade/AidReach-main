@@ -38,13 +38,24 @@ window.aiScanner = {
             symptoms: ['Puncture marks', 'Swelling', 'Pain'],
             advice: 'Keep the limb still and below heart level. Seek help.',
             icon: '🐍',
-            guide: 'bleeding' // Fallback to bleeding control for pressure immobilizer
+            guide: 'bleeding' // Fallback to bleeding control
         }
     },
 
     async init() {
+        // First check if we are in a secure context (HTTPS/localhost)
+        // Camera access is blocked by browsers on non-secure origins
+        if (!window.isSecureContext && location.protocol !== 'file:') {
+            this.statusEl.textContent = '❌ HTTPS Required for Camera';
+            this.statusEl.classList.remove('hidden');
+            this.statusEl.style.background = 'rgba(229, 57, 53, 0.9)';
+            return;
+        }
+
         try {
             this.statusEl.textContent = 'Loading AI Model...';
+            this.statusEl.classList.remove('hidden');
+
             // MobileNet is loaded via CDN in index.html, available globally
             this.model = await mobilenet.load();
             this.statusEl.textContent = 'AI Ready';
@@ -64,15 +75,41 @@ window.aiScanner = {
 
     async startCamera() {
         if (this.stream) return;
+
+        this.statusEl.textContent = 'Starting Camera...';
+        this.statusEl.classList.remove('hidden');
+
         try {
-            const constraints = { video: { facingMode: this.facingMode } };
+            // Robust constraints for mobile devices
+            const constraints = {
+                video: {
+                    facingMode: this.facingMode,
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                }
+            };
+
             this.stream = await navigator.mediaDevices.getUserMedia(constraints);
             this.video.srcObject = this.stream;
+
+            // Wait for video to be ready
+            this.video.onloadedmetadata = () => {
+                this.video.play();
+                this.statusEl.classList.add('hidden');
+            };
+
             if (!this.model) this.init();
         } catch (err) {
             console.error("Camera error:", err);
-            this.statusEl.textContent = 'Camera Denied';
+            if (err.name === 'NotAllowedError') {
+                this.statusEl.textContent = '❌ Camera Permission Denied';
+            } else if (err.name === 'NotFoundError') {
+                this.statusEl.textContent = '❌ No Camera Found';
+            } else {
+                this.statusEl.textContent = '❌ Camera Error: ' + err.name;
+            }
             this.statusEl.classList.remove('hidden');
+            this.statusEl.style.background = 'rgba(229, 57, 53, 0.9)';
         }
     },
 
@@ -82,6 +119,7 @@ window.aiScanner = {
             this.stream = null;
             this.video.srcObject = null;
         }
+        this.statusEl.classList.add('hidden');
     },
 
     toggleCamera() {
@@ -94,7 +132,7 @@ window.aiScanner = {
         if (!this.model) return;
         this.statusEl.textContent = 'Analyzing...';
         this.statusEl.classList.remove('hidden');
-        this.resultCard.classList.add('hidden'); // Hide old result
+        this.resultCard.classList.add('hidden');
         this.captureBtn.disabled = true;
 
         const context = this.canvas.getContext('2d');
@@ -115,9 +153,11 @@ window.aiScanner = {
     },
 
     processPredictions(predictions) {
+        if (!predictions || predictions.length === 0) return;
+
         const top = predictions[0];
         const label = top.className.toLowerCase();
-        let type = 'bleeding'; // Default to bleeding as it's common
+        let type = 'bleeding';
 
         if (label.includes('fire') || label.includes('burn') || label.includes('hot')) type = 'burn';
         if (label.includes('bone') || label.includes('stick') || label.includes('crack')) type = 'fracture';
@@ -136,10 +176,9 @@ window.aiScanner = {
         const stepsEl = document.getElementById('result-steps');
 
         titleEl.textContent = `${profile.icon} ${profile.title}`;
-        confEl.style.width = `${Math.min(prob * 100 + 20, 100)}%`; // Boost visual confidence for demo
-        actionEl.innerHTML = `<strong>Action:</strong> ${profile.advice}`;
+        confEl.style.width = `${Math.min(prob * 100 + 20, 100)}%`;
+        actionEl.innerHTML = `<strong>Immediate Action:</strong> ${profile.advice}`;
 
-        // Build symptoms tags
         symptomsEl.innerHTML = '';
         profile.symptoms.forEach(s => {
             const tag = document.createElement('div');
@@ -148,11 +187,14 @@ window.aiScanner = {
             symptomsEl.appendChild(tag);
         });
 
-        // Add call to action to open guide
-        stepsEl.innerHTML = `<button class="btn btn-primary" style="margin-top: 1rem; width: 100%;" onclick="window.showScreen('${profile.guide}')">Open ${profile.title} Guide</button>`;
+        stepsEl.innerHTML = `<button class="btn btn-primary" style="margin-top: 1.5rem; width: 100%; height: 50px; font-weight: 700;" onclick="window.showScreen('${profile.guide}')">OPEN FIRST AID GUIDE</button>`;
 
         this.resultCard.classList.remove('hidden');
         this.resultCard.style.display = 'block';
-        this.resultCard.scrollIntoView({ behavior: 'smooth' });
+
+        // Ensure result is visible on smaller screens
+        setTimeout(() => {
+            this.resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
     }
 };

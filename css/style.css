@@ -1,31 +1,55 @@
-/* modern premium design for AidReach */
+/* modern premium light design for AidReach */
 :root {
-  --primary: #FF3B30;
-  /* Neon Emergency Red */
-  --primary-glow: rgba(255, 59, 48, 0.4);
-  --background: #0B0F19;
-  /* Deep Obsidian */
-  --surface: rgba(26, 34, 53, 0.7);
-  /* Frosted Glass */
-  --surface-alt: rgba(45, 55, 72, 0.4);
-  --text-main: #FFFFFF;
-  --text-muted: #94A3B8;
-  --border: rgba(255, 255, 255, 0.08);
+  /* High Contrast Accents */
+  --primary: #111111;
+  /* Striking Black */
+  --primary-glow: rgba(255, 105, 180, 0.4);
+  /* Pinkish glow for black pills */
 
+  /* Backgrounds & Surfaces */
+  --background: #E8EAF6;
+  /* Base pastel lavender-ish fallback */
+  --bg-gradient: linear-gradient(135deg, #E6E6FA 0%, #FFF0F5 100%);
+  /* Lavender to Pale Pink */
+  --surface: #FFFFFF;
+  /* Crisp White Cards */
+  --surface-alt: #F8F9FA;
+  /* Off-white for subtle layers */
+
+  /* Feature Card Pastels */
+  --pastel-green: #DCE5C7;
+  --pastel-purple: #DDE0ED;
+
+  /* Typography */
+  --text-main: #111111;
+  /* Rich Black */
+  --text-muted: #666666;
+  /* Medium Gray */
+
+  /* Borders & Shadows */
+  --border: rgba(0, 0, 0, 0.05);
+  /* Very subtle border */
+  --shadow-glass: 0 4px 24px rgba(0, 0, 0, 0.04);
+  /* Soft ambient shadow */
+  --shadow-glow: 0 10px 25px var(--primary-glow);
+
+  /* States */
   --success: #34C759;
   --warning: #FFCC00;
   --danger: #FF3B30;
 
+  /* Fonts */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-heading: 'Outfit', var(--font-sans);
 
-  --radius-sm: 0.75rem;
-  --radius-md: 1.25rem;
+  /* Geometry */
+  --radius-sm: 1rem;
+  /* Increased for softer look */
+  --radius-md: 1.5rem;
+  /* Standard card radius */
   --radius-lg: 2rem;
+  /* Huge radius for major elements */
   --radius-pill: 9999px;
-
-  --shadow-glow: 0 0 20px var(--primary-glow);
-  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 * {
@@ -36,7 +60,8 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--background);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
   color: var(--text-main);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
@@ -87,25 +112,27 @@ body::after {
 .bg-blob-red {
   position: fixed;
   top: -10%;
-  left: -10%;
-  width: 60vmax;
-  height: 60vmax;
-  background: radial-gradient(circle, rgba(255, 59, 48, 0.15) 0%, rgba(255, 59, 48, 0) 70%);
-  filter: blur(100px);
+  left: -20%;
+  width: 80vmax;
+  height: 80vmax;
+  background: radial-gradient(circle, rgba(230, 230, 250, 0.8) 0%, rgba(230, 230, 250, 0) 70%);
+  /* Lavender */
+  filter: blur(120px);
   z-index: -1;
-  animation: drift 25s infinite alternate ease-in-out;
+  animation: drift 30s infinite alternate ease-in-out;
 }
 
 .bg-blob-blue {
   position: fixed;
   bottom: -10%;
-  right: -10%;
-  width: 60vmax;
-  height: 60vmax;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0) 70%);
-  filter: blur(100px);
+  right: -20%;
+  width: 80vmax;
+  height: 80vmax;
+  background: radial-gradient(circle, rgba(255, 240, 245, 0.8) 0%, rgba(255, 240, 245, 0) 70%);
+  /* Pale Pink */
+  filter: blur(120px);
   z-index: -1;
-  animation: drift 30s infinite alternate-reverse ease-in-out;
+  animation: drift 35s infinite alternate-reverse ease-in-out;
 }
 
 h1,
@@ -203,46 +230,56 @@ input {
 /* Glassmorphism Common */
 .glass {
   background: var(--surface);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-glass);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Form Elements */
+/* Base Inputs */
 .input-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  position: relative;
 }
 
 .input-field {
   width: 100%;
-  padding: 1rem 1.2rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  font-size: 1rem;
+  padding: 1.25rem;
   background: var(--surface-alt);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
   color: var(--text-main);
-  transition: all 0.2s ease;
-  outline: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.input-field::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
 }
 
 .input-field:focus {
-  border-color: var(--primary);
+  outline: none;
   background: var(--surface);
-  box-shadow: 0 0 0 3px var(--primary-glow);
+  border: 1px solid var(--text-muted);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
 }
 
+/* Buttons */
 .btn {
-  width: 100%;
-  padding: 1rem;
-  border-radius: var(--radius-md);
-  font-size: 1rem;
-  font-weight: 600;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 1rem 1.75rem;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  width: 100%;
+  letter-spacing: 0.3px;
 }
 
 .btn:active {
@@ -252,7 +289,9 @@ input {
 .btn-primary {
   background: var(--primary);
   color: white;
-  box-shadow: var(--shadow-glow);
+  /* Important: white text on black button */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  /* Replaced glow with solid shadow for now, will add specific glow pill later */
 }
 
 .btn-primary:hover {
@@ -261,10 +300,15 @@ input {
   transform: translateY(-2px);
 }
 
+.btn-primary:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
 .btn-outline {
-  background: transparent;
+  border: 2px solid var(--border);
   color: var(--text-main);
-  border: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .btn-outline:hover {
@@ -272,13 +316,24 @@ input {
   border-color: var(--text-muted);
 }
 
+.btn-outline:active {
+  background: var(--surface-alt);
+}
+
 .btn-ghost {
   color: var(--text-muted);
+  padding: 0.75rem;
 }
 
 .btn-ghost:hover {
   color: var(--primary);
   background: var(--primary-glow);
+}
+
+.btn-ghost:active {
+  color: var(--text-main);
+  background: var(--surface-alt);
+  border-radius: var(--radius-md);
 }
 
 /* Dividers */
@@ -402,21 +457,22 @@ input {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 25px rgba(220, 38, 38, 0.4), inset 0 -4px 10px rgba(0, 0, 0, 0.2), inset 0 4px 10px rgba(255, 255, 255, 0.3), 0 0 30px var(--primary-glow);
+  box-shadow: 0 16px 32px rgba(220, 38, 38, 0.3), inset 0 2px 8px rgba(255, 255, 255, 0.4);
   position: relative;
   overflow: hidden;
+  border: 4px solid white;
 }
 
 .sos-button::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
   border-radius: 50%;
-  box-shadow: 0 0 0 0 var(--primary-glow);
-  animation: pulse-ring 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+  box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  animation: pulse-ring 2.5s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 .sos-icon {
@@ -470,23 +526,22 @@ input {
 
 .emg-card {
   background: var(--surface);
-  backdrop-filter: blur(20px);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  box-shadow: var(--shadow-glass);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
 .emg-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--primary);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--primary-glow);
+  transform: translateY(-4px);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
 }
 
 .emg-icon-wrapper {
@@ -539,43 +594,54 @@ input {
 /* Feature Cards (Symptom, Hospitals, etc) */
 .feature-card {
   background: var(--surface);
-  backdrop-filter: blur(20px);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 1.2rem;
+  gap: 1rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: var(--shadow-glass);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
 }
 
 .feature-card:hover {
-  transform: scale(1.02);
-  border-color: var(--primary);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Feature Card Color Variants */
+.feature-card.bg-pastel-green {
+  background: var(--pastel-green);
+  border-color: transparent;
+}
+
+.feature-card.bg-pastel-purple {
+  background: var(--pastel-purple);
+  border-color: transparent;
 }
 
 .feature-icon {
-  font-size: 1.5rem;
-  width: 56px;
-  height: 56px;
-  background: var(--surface-alt);
-  border-radius: 16px;
+  width: 48px;
+  height: 48px;
+  background: var(--surface);
+  /* White circle for icon */
+  border: 1px solid var(--border);
+  color: var(--primary);
+  /* Black icon */
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--primary);
-  border: 1px solid var(--border);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
 .feature-card:hover .feature-icon {
   background: var(--surface);
-  border-color: var(--primary);
-  box-shadow: 0 0 15px var(--primary-glow);
 }
 
 .feature-info {
@@ -601,39 +667,52 @@ input {
 .bottom-nav {
   position: fixed;
   bottom: 1.5rem;
+  /* Floating above bottom */
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
   max-width: 400px;
-  padding: 0.8rem 1.5rem;
+  /* Keep it a pill */
+  background: var(--primary);
+  /* Deep Black */
+  border-radius: var(--radius-pill);
   display: flex;
   justify-content: space-between;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
+  padding: 0.5rem 1rem;
+  box-shadow: 0 15px 35px var(--primary-glow);
+  /* Pink ambient glow from reference */
   z-index: 1000;
-  background: rgba(26, 34, 53, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.2);
+  border: none;
 }
 
 .nav-item {
+  color: #666666;
+  /* Muted gray for inactive on black */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  font-weight: 500;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
   transition: all 0.2s;
+  border-radius: var(--radius-pill);
 }
 
-.nav-item i {
-  font-size: 1.5rem;
+.nav-item span {
+  font-size: 0.7rem;
+  font-weight: 600;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.2s ease;
 }
 
 .nav-item.active {
-  color: var(--primary);
+  color: #FFFFFF;
+  /* White for active */
+  background: rgba(255, 255, 255, 0.1);
+  /* Subtle highlight */
 }
 
 .nav-item.active i {
@@ -1151,6 +1230,35 @@ input {
   to {
     transform: translateY(0);
   }
+}
+
+/* ======== FLOATING ACTION BUTTON (AI BOT) ======== */
+.ai-fab {
+  position: fixed;
+  bottom: 6rem;
+  /* Above bottom nav */
+  right: 1.5rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--primary);
+  /* Deep Black */
+  color: white;
+  /* Important: white icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  box-shadow: 0 10px 25px var(--primary-glow);
+  /* Pink ambient glow */
+  z-index: 999;
+  border: 3px solid white;
+  /* Adds that crisp iOS edge */
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.ai-fab:active {
+  transform: scale(0.9) rotate(-10deg);
 }
 
 .lang-grid {

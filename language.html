@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarvam AI - Indic Language Translator & Transcriber</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-color: #0f172a;
+            --surface-color: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass-blur: blur(16px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .api-key-warning {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--surface-color);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .panel {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        select,
+        textarea,
+        input[type="text"] {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 10px;
+            padding: 1rem;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        select:focus,
+        textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .action-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+        }
+
+        .output-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            min-height: 150px;
+            height: 100%;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-y: auto;
+        }
+
+        /* Transcription Mic UI */
+        .mic-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem 0;
+            height: 120px;
+        }
+
+        .mic-btn {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: white;
+            border: none;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.5);
+            position: relative;
+        }
+
+        .mic-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.6);
+        }
+
+        .mic-btn.recording {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 25px rgba(239, 68, 68, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loader {
+            display: none;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading .loader {
+            display: inline-block;
+        }
+
+        .loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .badge {
+            background: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        optgroup {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <div class="header">
+        <h1>Indic Communicator</h1>
+        <p>Break language barriers with Sarvam AI</p>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('translate')">
+                <i class="fa-solid fa-language"></i> Text Translation
+            </button>
+            <button class="tab-btn" onclick="switchTab('transcribe')">
+                <i class="fa-solid fa-microphone"></i> Live Voicenote
+            </button>
+        </div>
+
+        <!-- Translation Panel -->
+        <div id="translate-panel" class="panel active">
+            <div class="badge">Powered by Sarvam Text API</div>
+            <div class="grid-2">
+                <!-- Left side: Input -->
+                <div>
+                    <div class="input-group">
+                        <label for="targetLanguage">Select Your Language</label>
+                        <select id="targetLanguage">
+                            <option value="hi-IN">Andaman and Nicobar Islands</option>
+                            <option value="te-IN">Andhra Pradesh</option>
+                            <option value="hi-IN">Arunachal Pradesh</option>
+                            <option value="as-IN">Assam</option>
+                            <option value="hi-IN">Bihar</option>
+                            <option value="pa-IN">Chandigarh</option>
+                            <option value="hi-IN">Chhattisgarh</option>
+                            <option value="gu-IN">Dadra and Nagar Haveli and Daman and Diu</option>
+                            <option value="hi-IN">Delhi</option>
+                            <option value="kok-IN">Goa</option>
+                            <option value="gu-IN" selected>Gujarat</option>
+                            <option value="hi-IN">Haryana</option>
+                            <option value="hi-IN">Himachal Pradesh</option>
+                            <option value="ks-IN">Jammu and Kashmir</option>
+                            <option value="hi-IN">Jharkhand</option>
+                            <option value="kn-IN">Karnataka</option>
+                            <option value="ml-IN">Kerala</option>
+                            <option value="ur-IN">Ladakh</option>
+                            <option value="ml-IN">Lakshadweep</option>
+                            <option value="hi-IN">Madhya Pradesh</option>
+                            <option value="mr-IN">Maharashtra</option>
+                            <option value="mni-IN">Manipur</option>
+                            <option value="hi-IN">Meghalaya</option>
+                            <option value="hi-IN">Mizoram</option>
+                            <option value="hi-IN">Nagaland</option>
+                            <option value="od-IN">Odisha</option>
+                            <option value="ta-IN">Puducherry</option>
+                            <option value="pa-IN">Punjab</option>
+                            <option value="hi-IN">Rajasthan</option>
+                            <option value="ne-IN">Sikkim</option>
+                            <option value="ta-IN">Tamil Nadu</option>
+                            <option value="te-IN">Telangana</option>
+                            <option value="bn-IN">Tripura</option>
+                            <option value="hi-IN">Uttar Pradesh</option>
+                            <option value="hi-IN">Uttarakhand</option>
+                            <option value="bn-IN">West Bengal</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="speakerGender">Speaker Gender Context (Optional)</label>
+                        <select id="speakerGender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Neutral">Neutral</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="sourceText">Source Text (English/Hinglish/GenZ acronyms - Auto-detect
+                            Language)</label>
+                        <textarea id="sourceText"
+                            placeholder="Enter text here... You can use English GenZ slang (e.g., 'idk wbu', 'fr bro this is goated', 'brb'). It will be translated properly."></textarea>
+                    </div>
+
+                    <button class="action-btn" id="translateBtn" onclick="translateText()">
+                        <span class="btn-text"><i class="fa-solid fa-wand-magic-sparkles"></i> Translate to Local
+                            Language</span>
+                        <div class="loader"></div>
+                    </button>
+                </div>
+
+                <!-- Right side: Output -->
+                <div class="input-group" style="height: 100%;">
+                    <label>Translated Output</label>
+                    <div id="translationOutput" class="output-box"
+                        style="display: flex; flex-direction: column; justify-content: flex-start;">
+                        <span style="color: var(--text-muted); font-style: italic;">The translation will appear
+                            here...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transcription Panel (Live Mic) -->
+        <div id="transcribe-panel" class="panel">
+            <div class="badge">Powered by Sarvam Saaras:v3 Speech API</div>
+            <div class="grid-2">
+                <!-- Left side: Voice Input -->
+                <div
+                    style="background: rgba(15, 23, 42, 0.4); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+                    <div class="input-group" style="width: 100%; margin-bottom: 1rem;">
+                        <label for="transcribeLanguage">Select Your Language</label>
+                        <select id="transcribeLanguage">
+                            <option value="hi-IN">Andaman and Nicobar Islands</option>
+                            <option value="te-IN">Andhra Pradesh</option>
+                            <option value="hi-IN">Arunachal Pradesh</option>
+                            <option value="as-IN">Assam</option>
+                            <option value="hi-IN">Bihar</option>
+                            <option value="pa-IN">Chandigarh</option>
+                            <option value="hi-IN">Chhattisgarh</option>
+                            <option value="gu-IN">Dadra and Nagar Haveli and Daman and Diu</option>
+                            <option value="hi-IN">Delhi</option>
+                            <option value="kok-IN">Goa</option>
+                            <option value="gu-IN" selected>Gujarat</option>
+                            <option value="hi-IN">Haryana</option>
+                            <option value="hi-IN">Himachal Pradesh</option>
+                            <option value="ks-IN">Jammu and Kashmir</option>
+                            <option value="hi-IN">Jharkhand</option>
+                            <option value="kn-IN">Karnataka</option>
+                            <option value="ml-IN">Kerala</option>
+                            <option value="ur-IN">Ladakh</option>
+                            <option value="ml-IN">Lakshadweep</option>
+                            <option value="hi-IN">Madhya Pradesh</option>
+                            <option value="mr-IN">Maharashtra</option>
+                            <option value="mni-IN">Manipur</option>
+                            <option value="hi-IN">Meghalaya</option>
+                            <option value="hi-IN">Mizoram</option>
+                            <option value="hi-IN">Nagaland</option>
+                            <option value="od-IN">Odisha</option>
+                            <option value="ta-IN">Puducherry</option>
+                            <option value="pa-IN">Punjab</option>
+                            <option value="hi-IN">Rajasthan</option>
+                            <option value="ne-IN">Sikkim</option>
+                            <option value="ta-IN">Tamil Nadu</option>
+                            <option value="te-IN">Telangana</option>
+                            <option value="bn-IN">Tripura</option>
+                            <option value="hi-IN">Uttar Pradesh</option>
+                            <option value="hi-IN">Uttarakhand</option>
+                            <option value="bn-IN">West Bengal</option>
+                        </select>
+                    </div>
+
+                    <input type="hidden" id="transcribeMode" value="transcribe" />
+                    <div class="mic-container">
+                        <button id="recordBtn" class="mic-btn" onclick="toggleRecording()">
+                            <i class="fa-solid fa-microphone"></i>
+                        </button>
+                    </div>
+
+                    <p id="recordingStatus"
+                        style="color: var(--text-muted); font-weight: 500; font-size: 1.1rem; text-align: center;">Tap
+                        to start speaking</p>
+
+                </div>
+
+                <!-- Right side: Chat Output -->
+                <div class="input-group" style="height: 100%; margin-bottom: 0;">
+                    <label>Live Transcription Output</label>
+                    <div id="transcriptionOutput" class="output-box"
+                        style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                        <i class="fa-solid fa-comment-dots"
+                            style="font-size: 3rem; color: rgba(255,255,255,0.1); margin-bottom: 1rem;"></i>
+                        <span id="transcriptionPlaceholder" style="color: var(--text-muted); font-style: italic;">
+                            Your spoken words will appear here...
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =======================================================
+        // IMPORTANT: PUT YOUR ACTUAL SARVAM API KEY HERE
+        // =======================================================
+        const SARVAM_API_KEY = "sk_rnuhsra0_WoDmZSaksmdpMIeEwqwxeTQa";
+        const API_BASE_URL = "https://api.sarvam.ai";
+
+
+        // Tab Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.panel').forEach(panel => panel.classList.remove('active'));
+
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId + '-panel').classList.add('active');
+        }
+
+        // --- Text Translation ---
+
+        // Dictionary to map GenZ shorthand/slang to standard English BEFORE sending to API
+        const genZSlangMap = {
+            "tbh": "to be honest",
+            "fr": "for real",
+            "frfr": "for real for real",
+            "idk": "i don't know",
+            "ikr": "i know right",
+            "ngl": "not gonna lie",
+            "omg": "oh my god",
+            "brb": "be right back",
+            "wbu": "what about you",
+            "hbu": "how about you",
+            "lol": "laughing out loud",
+            "lmao": "laughing my ass off",
+            "rofl": "rolling on floor laughing",
+            "btw": "by the way",
+            "smh": "shaking my head",
+            "imo": "in my opinion",
+            "imho": "in my humble opinion",
+            "fomo": "fear of missing out",
+            "iykyk": "if you know you know",
+            "afaik": "as far as i know",
+            "tmi": "too much information",
+            "tldr": "too long didn't read",
+            "sus": "suspicious",
+            "cap": "lie",
+            "no cap": "no lie",
+            "vibes": "feelings",
+            "goated": "greatest of all time",
+            "goat": "greatest of all time",
+            "rn": "right now",
+            "asap": "as soon as possible",
+            "lit": "exciting",
+            "delulu": "delusional",
+            "solulu": "solution"
+        };
+
+        function processGenZText(text) {
+            // Split text into words, check if they exist in our slang map, and replace them
+            return text.split(/\b/).map(word => {
+                const lowerWord = word.toLowerCase();
+                return genZSlangMap[lowerWord] ? genZSlangMap[lowerWord] : word;
+            }).join('');
+        }
+
+        async function translateText() {
+            let sourceText = document.getElementById('sourceText').value.trim();
+            const targetLang = document.getElementById('targetLanguage').value;
+            const gender = document.getElementById('speakerGender').value;
+            const outputBox = document.getElementById('translationOutput');
+            const btn = document.getElementById('translateBtn');
+
+            if (!sourceText) {
+                alert("Please enter some text to translate.");
+                return;
+            }
+
+            // --- Gen Z Pre-processing Step ---
+            // We expand the slang first so Sarvam API gets proper context for translation.
+            sourceText = processGenZText(sourceText);
+
+            btn.classList.add('loading');
+            outputBox.innerHTML = '<span style="color: var(--text-muted);">Translating (Preprocessing slang if any)...</span>';
+
+            try {
+                // For direct browser calls to Sarvam
+                const response = await fetch(`${API_BASE_URL}/translate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'api-subscription-key': SARVAM_API_KEY
+                    },
+                    body: JSON.stringify({
+                        input: sourceText,
+                        source_language_code: "en-IN",
+                        target_language_code: targetLang,
+                        speaker_gender: gender,
+                        model: "sarvam-translate:v1" // Explicitly required by latest API
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`API error: ${response.status} - Details: ${errorText}`);
+                }
+
+                const data = await response.json();
+
+                if (data && data.translated_text) {
+                    outputBox.innerHTML = `<div style="padding: 1rem; background: rgba(99, 102, 241, 0.1); border-left: 4px solid var(--primary-color); border-radius: 4px; font-size: 1.2rem;">${data.translated_text}</div>`;
+                } else {
+                    outputBox.innerHTML = `[Expected Translation]<br><br><small>Response: ${JSON.stringify(data)}</small>`;
+                }
+
+            } catch (error) {
+                console.error("Translation Error:", error);
+                outputBox.innerHTML = `<span style="color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Error: ${error.message}</span>
+                <br><br><small style="color: var(--text-muted);">Ensure you have replaced 'YOUR_SARVAM_API_KEY' with your actual key in the code.</small>`;
+            } finally {
+                btn.classList.remove('loading');
+            }
+        }
+
+
+        // --- Live Voice Transcription (MediaRecorder) ---
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+
+        async function toggleRecording() {
+            const btn = document.getElementById('recordBtn');
+            const statusText = document.getElementById('recordingStatus');
+
+            if (!isRecording) {
+                // START RECORDING
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+
+                    mediaRecorder.ondataavailable = event => {
+                        if (event.data.size > 0) {
+                            audioChunks.push(event.data);
+                        }
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/wav' });
+                        audioChunks = [];
+                        processAudio(audioBlob);
+                    };
+
+                    audioChunks = [];
+                    mediaRecorder.start();
+                    isRecording = true;
+
+                    btn.classList.add('recording');
+                    btn.innerHTML = '<i class="fa-solid fa-stop"></i>';
+                    statusText.textContent = "Listening... Tap to stop and transcribe";
+                    statusText.style.color = "#ef4444";
+
+                } catch (err) {
+                    console.error("Microphone access error:", err);
+                    alert("Could not access microphone! Please ensure your browser has microphone permissions enabled.");
+                }
+            } else {
+                // STOP RECORDING
+                mediaRecorder.stop();
+                mediaRecorder.stream.getTracks().forEach(track => track.stop()); // Stop the mic completely
+                isRecording = false;
+
+                btn.classList.remove('recording');
+                btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+
+                statusText.innerHTML = "Processing audio... <div class='loader' style='display:inline-block; border-color: var(--primary-color); border-top-color: transparent;'></div>";
+                statusText.style.color = "var(--text-main)";
+            }
+        }
+
+        async function processAudio(audioBlob) {
+            // Force transcribe mode for native script output
+            const mode = "transcribe";
+            const langCode = document.getElementById('transcribeLanguage').value;
+            const outputBox = document.getElementById('transcriptionOutput');
+            const statusText = document.getElementById('recordingStatus');
+
+            // Reset UI for output
+            outputBox.style.justifyContent = "flex-start";
+            outputBox.style.alignItems = "flex-start";
+            outputBox.style.textAlign = "left";
+            outputBox.innerHTML = '<span style="color: var(--text-muted);"><i class="fa-solid fa-spinner fa-spin"></i> Sending audio to Sarvam AI...</span>';
+
+            try {
+                const formData = new FormData();
+                // Browsers often record in webm or ogg. We send it as a File object.
+                const fileExtension = audioBlob.type.includes('webm') ? 'webm' : 'wav';
+                const mimeType = audioBlob.type.split(';')[0] || 'audio/wav';
+                const audioFile = new File([audioBlob], `voicenote.${fileExtension}`, { type: mimeType });
+
+                formData.append('file', audioFile);
+                formData.append('model', 'saaras:v3');
+                formData.append('language_code', langCode);
+                formData.append('mode', mode);
+
+                // Step 1: Transcribe the audio
+                const response = await fetch(`${API_BASE_URL}/speech-to-text-translate`, {
+                    method: 'POST',
+                    headers: {
+                        'api-subscription-key': SARVAM_API_KEY
+                    },
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Speech API error: ${response.status} - Details: ${errorText}`);
+                }
+
+                const data = await response.json();
+
+                if (data && data.transcript) {
+                    outputBox.innerHTML = '<span style="color: var(--text-muted);"><i class="fa-solid fa-spinner fa-spin"></i> Converting to Native Script...</span>';
+
+                    // Step 2: Ensure it is in the Native Script by passing the transcript through the translator
+                    const translateResponse = await fetch(`${API_BASE_URL}/translate`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'api-subscription-key': SARVAM_API_KEY
+                        },
+                        body: JSON.stringify({
+                            input: data.transcript,
+                            source_language_code: "en-IN", // The Saaras model often outputs english transliteration or translation
+                            target_language_code: langCode,
+                            speaker_gender: "Female",
+                            model: "sarvam-translate:v1"
+                        })
+                    });
+
+                    if (!translateResponse.ok) {
+                        const translateErrorText = await translateResponse.text();
+                        throw new Error(`Translation API error: ${translateResponse.status} - Details: ${translateErrorText}`);
+                    }
+
+                    const translatedData = await translateResponse.json();
+
+                    if (translatedData && translatedData.translated_text) {
+                        outputBox.innerHTML = `
+                        <div style="width: 100%;">
+                            <div style="font-size: 0.8rem; color: var(--primary-color); margin-bottom: 0.5rem; text-transform: uppercase; font-weight: bold;">
+                                <i class="fa-solid fa-user"></i> You spoke:
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 0 16px 16px 16px; border-left: 3px solid var(--primary-color); font-size: 1.2rem;">
+                                ${translatedData.translated_text}
+                            </div>
+                        </div>`;
+                    } else {
+                        throw new Error("Failed to translate the transcript to native script.");
+                    }
+                } else {
+                    outputBox.innerHTML = `[Transcript Output]<br><br><small>Response: ${JSON.stringify(data)}</small>`;
+                }
+
+            } catch (error) {
+                console.error("Transcription Error:", error);
+                outputBox.innerHTML = `<span style="color: #ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Error: ${error.message}</span>
+                <br><br><small style="color: var(--text-muted);">Ensure you have replaced 'YOUR_SARVAM_API_KEY' with your actual key in the code.</small>`;
+            } finally {
+                statusText.textContent = "Tap to start speaking again";
+            }
+        }
+
+    </script>
+</body>
+
+</html>
