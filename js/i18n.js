@@ -2,7 +2,50 @@
 // AidReach - Translations (English + Hindi)
 // ============================================================
 
-export const translations = {
+window.SARVAM_API_KEY = "sk_rnuhsra0_WoDmZSaksmdpMIeEwqwxeTQa"; // from language.html
+window.SARVAM_BASE_URL = "https://api.sarvam.ai";
+
+window.indicLanguages = [
+    { code: "hi-IN", name: "Andaman and Nicobar Islands" },
+    { code: "te-IN", name: "Andhra Pradesh" },
+    { code: "hi-IN", name: "Arunachal Pradesh" },
+    { code: "as-IN", name: "Assam" },
+    { code: "hi-IN", name: "Bihar" },
+    { code: "pa-IN", name: "Chandigarh" },
+    { code: "hi-IN", name: "Chhattisgarh" },
+    { code: "gu-IN", name: "Dadra and Nagar Haveli" },
+    { code: "hi-IN", name: "Delhi" },
+    { code: "kok-IN", name: "Goa" },
+    { code: "gu-IN", name: "Gujarat" },
+    { code: "hi-IN", name: "Haryana" },
+    { code: "hi-IN", name: "Himachal Pradesh" },
+    { code: "ks-IN", name: "Jammu and Kashmir" },
+    { code: "hi-IN", name: "Jharkhand" },
+    { code: "kn-IN", name: "Karnataka" },
+    { code: "ml-IN", name: "Kerala" },
+    { code: "ur-IN", name: "Ladakh" },
+    { code: "ml-IN", name: "Lakshadweep" },
+    { code: "hi-IN", name: "Madhya Pradesh" },
+    { code: "mr-IN", name: "Maharashtra" },
+    { code: "mni-IN", name: "Manipur" },
+    { code: "hi-IN", name: "Meghalaya" },
+    { code: "hi-IN", name: "Mizoram" },
+    { code: "hi-IN", name: "Nagaland" },
+    { code: "od-IN", name: "Odisha" },
+    { code: "ta-IN", name: "Puducherry" },
+    { code: "pa-IN", name: "Punjab" },
+    { code: "hi-IN", name: "Rajasthan" },
+    { code: "ne-IN", name: "Sikkim" },
+    { code: "ta-IN", name: "Tamil Nadu" },
+    { code: "te-IN", name: "Telangana" },
+    { code: "bn-IN", name: "Tripura" },
+    { code: "hi-IN", name: "Uttar Pradesh" },
+    { code: "hi-IN", name: "Uttarakhand" },
+    { code: "bn-IN", name: "West Bengal" },
+    { code: "en-IN", name: "English (Default)" }
+];
+
+window.translations = {
     en: {
         // Global
         app_name: 'AidReach',
@@ -203,16 +246,63 @@ export const translations = {
     }
 };
 
-let currentLang = 'en';
+window.currentLangCode = 'en-IN'; // Sarvam standard
+window.isTranslatingUI = false;
 
-export function setLanguage(lang) {
-    currentLang = lang;
-    document.querySelector('html').setAttribute('lang', lang);
-    document.body.classList.toggle('lang-hi', lang === 'hi');
+window.setLanguage = function (langCode) {
+    window.currentLangCode = langCode;
+    console.log("Language changed to:", langCode);
+
+    // After setting the global code, iterate through UI elements to live-translate them via Sarvam
+    window.translateAppUI();
 }
 
-export function t(key) {
-    return translations[currentLang]?.[key] || translations.en[key] || key;
+window.getLang = function () {
+    return window.currentLangCode;
 }
 
-export function getLang() { return currentLang; }
+window.translateAppUI = async function () {
+    if (window.currentLangCode === 'en-IN') {
+        // Just reload the page or revert nodes if returning to english - simpler for offline demo 
+        location.reload();
+        return;
+    }
+
+    window.isTranslatingUI = true;
+    const elementsToTranslate = document.querySelectorAll('[data-i18n], .emg-title, .feature-title, .feature-sub, .section-title');
+
+    // We batch requests lightly so we don't overload, but for this demo fire them
+    // Note: To avoid rate limits in a real app, you'd send an array of strings to translate.
+    for (const el of elementsToTranslate) {
+        if (!el.dataset.originalText) {
+            el.dataset.originalText = el.innerText;
+        }
+
+        try {
+            const response = await fetch(`${window.SARVAM_BASE_URL}/translate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'api-subscription-key': window.SARVAM_API_KEY
+                },
+                body: JSON.stringify({
+                    input: el.dataset.originalText,
+                    source_language_code: "en-IN",
+                    target_language_code: window.currentLangCode,
+                    speaker_gender: "Neutral",
+                    model: "sarvam-translate:v1"
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data && data.translated_text) {
+                    el.innerText = data.translated_text; // Swap the DOM text
+                }
+            }
+        } catch (e) {
+            console.error("UI Translation error:", e);
+        }
+    }
+    window.isTranslatingUI = false;
+}

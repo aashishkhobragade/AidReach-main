@@ -161,6 +161,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Language Selection Modal ---
     const langModal = document.getElementById('lang-modal');
     const btnCloseLang = document.getElementById('btn-close-lang');
+    const langGrid = document.getElementById('lang-grid');
+
+    if (langGrid && window.indicLanguages) {
+        langGrid.innerHTML = '';
+        window.indicLanguages.forEach(lang => {
+            const btn = document.createElement('button');
+            btn.className = 'lang-btn';
+            if (lang.code === window.currentLangCode) btn.classList.add('active');
+            btn.textContent = lang.name;
+
+            btn.addEventListener('click', () => {
+                // Remove active class from all
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Set application language and API configuration
+                if (window.setLanguage) window.setLanguage(lang.code);
+
+                // Provide visual feedback and close modal
+                alert(`Language set to: ${lang.name}`);
+                langModal.style.display = 'none';
+            });
+
+            langGrid.appendChild(btn);
+        });
+    }
+
     // We bind the Profile tab to open language selection for now
     const profileBtn = document.querySelector('.nav-item[data-target="#"]:last-child');
     if (profileBtn && langModal) {
