@@ -140,7 +140,7 @@
 
       <div class="section-title">Tools</div>
 
-      <div class="feature-card">
+      <div class="feature-card" data-action="open-scan">
         <div class="feature-icon" style="color: #8B5CF6; background: #F3E8FF;"><i
             class="ph-fill ph-magnifying-glass"></i></div>
         <div class="feature-info">
@@ -150,7 +150,7 @@
         <i class="ph-bold ph-caret-right feature-arrow"></i>
       </div>
 
-      <div class="feature-card">
+      <div class="feature-card" data-action="open-map">
         <div class="feature-icon" style="color: #10B981; background: #ECFDF5;"><i class="ph-fill ph-hospital"></i></div>
         <div class="feature-info">
           <div class="feature-title">Nearby Hospitals</div>
@@ -181,6 +181,219 @@
 
     </main>
 
+    <!-- ==========================================
+       SCREEN: CPR guide
+       ========================================== -->
+    <main id="screen-cpr" class="screen">
+      <div class="emg-topbar">
+        <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
+        <div class="emg-topbar-title" data-i18n="cpr_title">CPR Guide</div>
+      </div>
+      <div class="cpr-metronome">
+        <div class="cpr-counter" id="cpr-counter">0</div>
+        <div class="cpr-counter-label" data-i18n="cpr_count">Compressions</div>
+
+        <button class="cpr-heart" id="cpr-heart" aria-label="CPR Heart">
+          <i class="ph-fill ph-heart"></i>
+        </button>
+
+        <div class="cpr-bpm">110</div>
+        <div class="cpr-bpm-label">BPM Target</div>
+        <div class="cpr-instruction" id="cpr-instruction" data-i18n="cpr_instruction">Push HARD &amp; FAST</div>
+        <div class="cpr-sub" id="cpr-sub" data-i18n="cpr_sub_text">2 inches deep · 110 BPM · Center of chest</div>
+      </div>
+      <div class="cpr-controls">
+        <button class="btn btn-primary" id="cpr-start-btn" data-i18n="cpr_start">START CPR</button>
+      </div>
+    </main>
+
+    <!-- ==========================================
+       SCREEN: BLEEDING
+       ========================================== -->
+    <main id="screen-bleeding" class="screen">
+      <div class="emg-topbar">
+        <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
+        <div class="emg-topbar-title" data-i18n="bleeding_title">Bleeding Control</div>
+      </div>
+      <div class="step-container">
+        <div class="step-num" id="bleed-step-num">STEP 1 OF 5</div>
+        <div class="step-visual" id="bleed-step-icon">🤲</div>
+        <div class="step-instruction" id="bleed-step-title"
+          style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem">Apply Direct Pressure</div>
+        <div class="step-sub" id="bleed-step-sub" style="color:var(--text-muted);line-height:1.5">Use cloth, clothing or
+          bandage. Press HARD with both hands.</div>
+      </div>
+      <div class="step-dots" id="bleed-dots" style="display:flex;justify-content:center;gap:0.5rem;margin-bottom:2rem">
+      </div>
+      <div class="step-nav" style="display:flex;gap:1rem">
+        <button class="btn btn-outline" id="bleed-prev">← Prev</button>
+        <button class="btn btn-primary" id="bleed-next">Next →</button>
+      </div>
+    </main>
+
+    <!-- ==========================================
+       SCREEN: BURNS
+       ========================================== -->
+    <main id="screen-burns" class="screen">
+      <div class="emg-topbar">
+        <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
+        <div class="emg-topbar-title" data-i18n="burns_title">Burns Treatment</div>
+      </div>
+      <div class="step-container">
+        <div class="step-num" id="burns-step-num">STEP 1 OF 4</div>
+        <div class="step-visual" id="burns-step-icon">💧</div>
+        <div class="step-instruction" id="burns-step-title"
+          style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem">Cool with Water</div>
+        <div class="step-sub" id="burns-step-sub" style="color:var(--text-muted);line-height:1.5">Run cool running water
+          over burn for 10 minutes.</div>
+        <div class="burns-timer-ring">
+          <svg viewBox="0 0 200 200">
+            <circle class="burns-timer-bg" cx="100" cy="100" r="90" />
+            <circle class="burns-timer-fg" id="burns-ring" cx="100" cy="100" r="90" style="stroke-dashoffset:565.48" />
+          </svg>
+          <div class="burns-timer-text">
+            <div class="burns-timer-time" id="burns-time">10:00</div>
+            <div class="burns-timer-label">minutes</div>
+          </div>
+        </div>
+        <button class="btn btn-outline" id="burns-timer-btn" style="margin-top: 1rem;">START 10-MIN TIMER</button>
+      </div>
+      <div class="step-dots" id="burns-dots" style="display:flex;justify-content:center;gap:0.5rem;margin-bottom:2rem">
+      </div>
+      <div class="step-nav" style="display:flex;gap:1rem">
+        <button class="btn btn-outline" id="burns-prev">← Prev</button>
+        <button class="btn btn-primary" id="burns-next">Next →</button>
+      </div>
+    </main>
+
+    <!-- ==========================================
+       SCREEN: FRACTURE
+       ========================================== -->
+    <main id="screen-fracture" class="screen">
+      <div class="emg-topbar">
+        <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
+        <div class="emg-topbar-title" data-i18n="fracture_title">Fracture Care</div>
+      </div>
+      <div class="step-container">
+        <div class="step-num" id="frac-step-num">STEP 1 OF 5</div>
+        <div class="step-visual" id="frac-step-icon">🛑</div>
+        <div class="step-instruction" id="frac-step-title"
+          style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem">Do NOT Move</div>
+        <div class="step-sub" id="frac-step-sub" style="color:var(--text-muted);line-height:1.5">Keep the person still.
+          Do not straighten or reposition the injured limb.</div>
+      </div>
+      <div class="step-dots" id="frac-dots" style="display:flex;justify-content:center;gap:0.5rem;margin-bottom:2rem">
+      </div>
+      <div class="step-nav" style="display:flex;gap:1rem">
+        <button class="btn btn-outline" id="frac-prev">← Prev</button>
+        <button class="btn btn-primary" id="frac-next">Next →</button>
+      </div>
+    </main>
+
+    <!-- ==========================================
+       SCREEN: CHOKING
+       ========================================== -->
+    <main id="screen-choking" class="screen">
+      <div class="emg-topbar">
+        <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
+        <div class="emg-topbar-title" data-i18n="choking_title">Choking Relief</div>
+      </div>
+      <div class="step-container">
+        <div class="choking-toggle">
+          <button class="choking-toggle-btn active" data-mode="adult">Adult</button>
+          <button class="choking-toggle-btn" data-mode="child">Child (&gt;1yr)</button>
+        </div>
+        <div class="step-num" id="choke-step-num">STEP 1 OF 4</div>
+        <div class="step-visual" id="choke-step-icon">🗣️</div>
+        <div class="step-instruction" id="choke-step-title"
+          style="font-size:1.5rem;font-weight:700;margin-bottom:0.5rem">Are you choking?</div>
+        <div class="step-sub" id="choke-step-sub" style="color:var(--text-muted);line-height:1.5">If cannot speak, cough
+          or breathe — act immediately.</div>
+      </div>
+      <div class="step-dots" id="choke-dots" style="display:flex;justify-content:center;gap:0.5rem;margin-bottom:2rem">
+      </div>
+      <div class="step-nav" style="display:flex;gap:1rem">
+        <button class="btn btn-outline" id="choke-prev">← Prev</button>
+        <button class="btn btn-primary" id="choke-next">Next →</button>
+      </div>
+    </main>
+
+    <!-- ==========================================
+       SCREEN: AI SCAN
+       ========================================== -->
+    <main id="screen-scan" class="screen">
+      <div class="emg-topbar">
+        <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
+        <div class="emg-topbar-title">AI Injury Detection</div>
+      </div>
+      <div class="scan-container" style="flex:1;display:flex;flex-direction:column;align-items:center;width:100%">
+        <p style="text-align:center;color:var(--text-muted);margin-bottom:1rem">Point camera at the wound for instant
+          first-aid suggestions.</p>
+
+        <div class="camera-wrapper"
+          style="position:relative;width:100%;max-width:400px;aspect-ratio:3/4;background:#E2E8F0;border-radius:var(--radius-lg);overflow:hidden;margin-bottom:1rem">
+          <video id="camera-feed" autoplay playsinline style="width:100%;height:100%;object-fit:cover"></video>
+          <canvas id="camera-canvas" style="display:none"></canvas>
+          <div class="scanner-overlay line-anim"
+            style="position:absolute;top:0;left:0;width:100%;height:2px;background:var(--primary);box-shadow:0 0 10px var(--primary);">
+          </div>
+          <div id="ai-status"
+            style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);color:white;padding:5px 15px;border-radius:20px;font-size:0.8rem">
+            Initializing Model...</div>
+        </div>
+
+        <div style="display:flex;gap:1rem;margin-bottom:1rem;width:100%;max-width:400px">
+          <button id="capture-btn" class="btn btn-primary" style="flex:1" disabled>
+            <i class="ph ph-camera"></i> Analyze Injury
+          </button>
+          <button id="switch-camera-btn" class="btn btn-outline" style="padding:0 1rem">
+            <i class="ph ph-arrows-clockwise"></i>
+          </button>
+        </div>
+
+        <div id="ai-result" class="hidden"
+          style="width:100%;max-width:400px;background:var(--surface);border-radius:var(--radius-md);padding:1.5rem;box-shadow:var(--shadow-sm);border:1px solid #E2E8F0;display:none;">
+          <h3 id="result-title" style="margin-bottom:0.5rem"></h3>
+          <div id="result-confidence"
+            style="height:4px;background:var(--primary);margin-bottom:1rem;border-radius:2px;width:0%"></div>
+          <p id="result-action" style="font-weight:600;margin-bottom:1rem"></p>
+          <div id="result-steps" style="font-size:0.9rem;color:var(--text-muted)"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ==========================================
+       SCREEN: MAP
+       ========================================== -->
+    <main id="screen-map" class="screen">
+      <div class="emg-topbar" style="justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:1rem">
+          <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
+          <div class="emg-topbar-title">Emergency Map</div>
+        </div>
+        <div
+          style="font-size:0.8rem;background:#F1F5F9;padding:4px 8px;border-radius:12px;color:var(--text-muted);display:flex;align-items:center;gap:4px">
+          <i class="ph ph-wifi-slash"></i> Offline Ready
+        </div>
+      </div>
+
+      <div
+        style="position:relative;flex:1;border-radius:var(--radius-lg);overflow:hidden;border:1px solid #E2E8F0;margin-bottom:1rem; min-height:400px;">
+        <div id="map-container" style="width:100%;height:100%;background:#F1F5F9;position:absolute;top:0;left:0;"></div>
+        <div
+          style="position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:0.5rem;background:white;padding:0.5rem;border-radius:var(--radius-full);box-shadow:var(--shadow-md);z-index:1000">
+          <button class="filter-btn active" data-type="hospital"
+            style="width:40px;height:40px;border-radius:50%;border:none;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer"><i
+              class="ph-fill ph-hospital" style="font-size:1.2rem"></i></button>
+          <button class="filter-btn" data-type="police"
+            style="width:40px;height:40px;border-radius:50%;border:none;background:#F1F5F9;color:var(--text-main);display:flex;align-items:center;justify-content:center;cursor:pointer"><i
+              class="ph-fill ph-police-car" style="font-size:1.2rem"></i></button>
+          <button class="filter-btn" data-type="ambulance"
+            style="width:40px;height:40px;border-radius:50%;border:none;background:#F1F5F9;color:var(--text-main);display:flex;align-items:center;justify-content:center;cursor:pointer"><i
+              class="ph-fill ph-ambulance" style="font-size:1.2rem"></i></button>
+        </div>
+      </div>
+    </main>
     <!-- ==========================================
        SETTINGS SCREEN
        ========================================== -->
