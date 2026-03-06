@@ -39,7 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Trigger screen-specific logic
         if (screenId === 'map' && window.initMap) {
             if (!window.mapInstance) {
-                setTimeout(window.initMap, 300);
+                // Short timeout allows DOM flexboxes to settle before Leaflet calculates bounds
+                setTimeout(() => window.initMap(), 150);
             } else {
                 setTimeout(() => window.mapInstance.invalidateSize(), 150);
             }

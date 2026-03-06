@@ -21,6 +21,8 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 </head>
 
 <body>
@@ -373,25 +375,26 @@
     <!-- ==========================================
        SCREEN: MAP
        ========================================== -->
-    <main id="screen-map" class="screen">
+    <main id="screen-map" class="screen" style="display: none;">
       <div class="emg-topbar" style="justify-content:space-between">
         <div style="display:flex;align-items:center;gap:1rem">
           <button class="btn-back" data-action="go-back"><i class="ph-bold ph-arrow-left"></i></button>
-          <div class="emg-topbar-title">Emergency Map</div>
+          <div class="emg-topbar-title" data-i18n="emergency_map">Emergency Map</div>
         </div>
         <div
           style="font-size:0.8rem;background:#F1F5F9;padding:4px 8px;border-radius:12px;color:var(--text-muted);display:flex;align-items:center;gap:4px">
-          <i class="ph ph-wifi-slash"></i> Offline Ready
+          <i class="ph ph-wifi-slash"></i> <span data-i18n="offline_ready">Offline Ready</span>
         </div>
       </div>
 
       <div
-        style="position:relative;flex:1;border-radius:var(--radius-lg);overflow:hidden;border:1px solid #E2E8F0;margin-bottom:1rem; min-height:400px;">
+        style="position:relative;flex:1;border-radius:var(--radius-lg);overflow:hidden;border:1px solid #E2E8F0;margin-bottom:1rem; min-height:450px;">
         <div id="map-container" style="width:100%;height:100%;background:#F1F5F9;position:absolute;top:0;left:0;"></div>
-        <div
-          style="position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:0.5rem;background:white;padding:0.5rem;border-radius:var(--radius-full);box-shadow:var(--shadow-md);z-index:1000">
+
+        <div class="map-filters"
+          style="position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:0.5rem;background:white;padding:0.5rem;border-radius:var(--radius-pill);box-shadow:var(--shadow-md);z-index:1000">
           <button class="filter-btn active" data-type="hospital"
-            style="width:40px;height:40px;border-radius:50%;border:none;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer"><i
+            style="width:40px;height:40px;border-radius:50%;border:none;color:var(--text-main);display:flex;align-items:center;justify-content:center;cursor:pointer"><i
               class="ph-fill ph-hospital" style="font-size:1.2rem"></i></button>
           <button class="filter-btn" data-type="police"
             style="width:40px;height:40px;border-radius:50%;border:none;background:#F1F5F9;color:var(--text-main);display:flex;align-items:center;justify-content:center;cursor:pointer"><i
