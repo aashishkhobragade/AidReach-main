@@ -6,43 +6,29 @@ window.SARVAM_API_KEY = "sk_rnuhsra0_WoDmZSaksmdpMIeEwqwxeTQa"; // from language
 window.SARVAM_BASE_URL = "https://api.sarvam.ai";
 
 window.indicLanguages = [
-    { code: "hi-IN", name: "Andaman and Nicobar Islands" },
-    { code: "te-IN", name: "Andhra Pradesh" },
-    { code: "hi-IN", name: "Arunachal Pradesh" },
-    { code: "as-IN", name: "Assam" },
-    { code: "hi-IN", name: "Bihar" },
-    { code: "pa-IN", name: "Chandigarh" },
-    { code: "hi-IN", name: "Chhattisgarh" },
-    { code: "gu-IN", name: "Dadra and Nagar Haveli" },
-    { code: "hi-IN", name: "Delhi" },
-    { code: "kok-IN", name: "Goa" },
-    { code: "gu-IN", name: "Gujarat" },
-    { code: "hi-IN", name: "Haryana" },
-    { code: "hi-IN", name: "Himachal Pradesh" },
-    { code: "ks-IN", name: "Jammu and Kashmir" },
-    { code: "hi-IN", name: "Jharkhand" },
-    { code: "kn-IN", name: "Karnataka" },
-    { code: "ml-IN", name: "Kerala" },
-    { code: "ur-IN", name: "Ladakh" },
-    { code: "ml-IN", name: "Lakshadweep" },
-    { code: "hi-IN", name: "Madhya Pradesh" },
-    { code: "mr-IN", name: "Maharashtra" },
-    { code: "mni-IN", name: "Manipur" },
-    { code: "hi-IN", name: "Meghalaya" },
-    { code: "hi-IN", name: "Mizoram" },
-    { code: "hi-IN", name: "Nagaland" },
-    { code: "od-IN", name: "Odisha" },
-    { code: "ta-IN", name: "Puducherry" },
-    { code: "pa-IN", name: "Punjab" },
-    { code: "hi-IN", name: "Rajasthan" },
-    { code: "ne-IN", name: "Sikkim" },
-    { code: "ta-IN", name: "Tamil Nadu" },
-    { code: "te-IN", name: "Telangana" },
-    { code: "bn-IN", name: "Tripura" },
-    { code: "hi-IN", name: "Uttar Pradesh" },
-    { code: "hi-IN", name: "Uttarakhand" },
-    { code: "bn-IN", name: "West Bengal" },
-    { code: "en-IN", name: "English (Default)" }
+    { code: "hi-IN", name: "हिन्दी" },         // Hindi
+    { code: "bn-IN", name: "বাংলা" },          // Bengali
+    { code: "mr-IN", name: "मराठी" },         // Marathi
+    { code: "te-IN", name: "తెలుగు" },        // Telugu
+    { code: "ta-IN", name: "தமிழ்" },         // Tamil
+    { code: "gu-IN", name: "ગુજરાતી" },       // Gujarati
+    { code: "ur-IN", name: "اردو" },           // Urdu
+    { code: "kn-IN", name: "ಕನ್ನಡ" },         // Kannada
+    { code: "od-IN", name: "ଓଡ଼ିଆ" },         // Odia
+    { code: "ml-IN", name: "മലയാളം" },        // Malayalam
+    { code: "pa-IN", name: "ਪੰਜਾਬੀ" },        // Punjabi
+    { code: "as-IN", name: "অসমীয়া" },       // Assamese
+    { code: "mai-IN", name: "मैथिली" },       // Maithili
+    { code: "sat-IN", name: "ᱥᱟᱱᱛᱟᱲᱤ" },      // Santali
+    { code: "ks-IN", name: "कॉशुर" },         // Kashmiri
+    { code: "ne-IN", name: "नेपाली" },        // Nepali
+    { code: "kok-IN", name: "कोंकणी" },       // Konkani
+    { code: "sd-IN", name: "सिन्धी" },         // Sindhi
+    { code: "doi-IN", name: "डोगरी" },        // Dogri
+    { code: "mni-IN", name: "ꯃꯤꯇꯩꯂꯣꯟ" },      // Manipuri
+    { code: "brx-IN", name: "बड़ो" },          // Bodo
+    { code: "sa-IN", name: "संस्कृतम्" },     // Sanskrit
+    { code: "en-IN", name: "English" }        // English Default
 ];
 
 window.translations = {
@@ -262,14 +248,29 @@ window.getLang = function () {
 }
 
 window.translateAppUI = async function () {
+    const loader = document.getElementById('translation-loader');
+
     if (window.currentLangCode === 'en-IN') {
         // Just reload the page or revert nodes if returning to english - simpler for offline demo 
         location.reload();
         return;
     }
 
+    if (loader) loader.style.display = 'flex';
     window.isTranslatingUI = true;
-    const elementsToTranslate = document.querySelectorAll('[data-i18n], .emg-title, .feature-title, .feature-sub, .section-title');
+
+    // Added more selectors to comprehensively catch all visible text on the page
+    const elementsToTranslate = document.querySelectorAll(`
+        [data-i18n], 
+        .emg-title, 
+        .feature-title, 
+        .feature-sub, 
+        .section-title, 
+        .nav-item span,
+        .auth-subtitle,
+        .header-logo,
+        .sos-text
+    `);
 
     // We batch requests lightly so we don't overload, but for this demo fire them
     // Note: To avoid rate limits in a real app, you'd send an array of strings to translate.
@@ -305,4 +306,5 @@ window.translateAppUI = async function () {
         }
     }
     window.isTranslatingUI = false;
+    if (loader) loader.style.display = 'none';
 }
