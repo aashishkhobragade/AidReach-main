@@ -1,0 +1,17 @@
+{
+    "name": "AidReach - Emergency First Aid",
+    "short_name": "AidReach",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#F8FAFC",
+    "theme_color": "#E53935",
+    "description": "An offline-first emergency medical guide and assistant.",
+    "icons": [
+        {
+            "src": "assets/logo.png",
+            "sizes": "192x192 512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
